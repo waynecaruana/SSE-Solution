@@ -1,0 +1,15 @@
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\Mvc_ShoppingCart.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\Mvc_ShoppingCart.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\EntityFramework.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\EntityFramework.xml
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\obj\Debug\Mvc_ShoppingCart.csprojResolveAssemblyReference.cache
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\obj\Debug\Mvc_ShoppingCart.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\obj\Debug\Mvc_ShoppingCart.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\BusinessLogic.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\Common.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\DataAccess.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\BusinessLogic.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\Common.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\DataAccess.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\Newtonsoft.Json.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\Newtonsoft.Json.xml

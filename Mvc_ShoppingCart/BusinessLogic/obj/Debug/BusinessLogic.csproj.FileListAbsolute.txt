@@ -1,0 +1,9 @@
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\BusinessLogic\bin\Debug\BusinessLogic.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\BusinessLogic\bin\Debug\BusinessLogic.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\BusinessLogic\bin\Debug\Common.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\BusinessLogic\bin\Debug\DataAccess.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\BusinessLogic\bin\Debug\Common.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\BusinessLogic\bin\Debug\DataAccess.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\BusinessLogic\obj\Debug\BusinessLogic.csprojResolveAssemblyReference.cache
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\BusinessLogic\obj\Debug\BusinessLogic.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\BusinessLogic\obj\Debug\BusinessLogic.pdb

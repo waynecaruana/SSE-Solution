@@ -1,0 +1,5 @@
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Common\bin\Debug\Common.dll.config
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Common\bin\Debug\Common.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Common\bin\Debug\Common.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Common\obj\Debug\Common.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Common\obj\Debug\Common.pdb

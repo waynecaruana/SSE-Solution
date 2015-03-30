@@ -1,0 +1,7 @@
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\DataAccess\bin\Debug\Common.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\DataAccess\bin\Debug\Common.pdb
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\DataAccess\obj\Debug\DataAccess.pdb
