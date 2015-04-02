@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
+
+
 namespace Mvc_ShoppingCart
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -12,6 +14,7 @@ namespace Mvc_ShoppingCart
 
     public class MvcApplication : System.Web.HttpApplication
     {
+       
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());

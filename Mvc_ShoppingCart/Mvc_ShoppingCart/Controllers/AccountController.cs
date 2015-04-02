@@ -8,6 +8,13 @@ using System.Web.Security;
 using Mvc_ShoppingCart.Models;
 using System.Net;
 using Newtonsoft.Json;
+using DataAccess;
+using BusinessLogic;
+using System.Web.UI;
+using DotNetOpenAuth.AspNet.Clients;
+using Facebook;
+using System.Dynamic;
+
 
 namespace Mvc_ShoppingCart.Controllers
 {
@@ -25,29 +32,97 @@ namespace Mvc_ShoppingCart.Controllers
         //
         // POST: /Account/LogOn
 
+
+        private Uri RedirectUri
+        {
+            get
+            {
+                var uriBuilder = new UriBuilder(Request.Url);
+                uriBuilder.Query = null;
+                uriBuilder.Fragment = null;
+                uriBuilder.Path = Url.Action("FacebookCallback");
+                return uriBuilder.Uri;
+            }
+        }
+
+        public ActionResult Facebook()
+        {
+            var fb = new Facebook.FacebookClient();
+            var loginUrl = fb.GetLoginUrl(new
+            {
+                client_id = "1575063379408402",
+                client_secret = "d25a4799942e8f6d7a0cc6af79dbe624",
+                redirect_uri = RedirectUri.AbsoluteUri,
+                response_type = "code",
+                scope = "email"
+            });
+
+            return Redirect(loginUrl.AbsoluteUri);
+        }
+
+        public ActionResult FacebookCallback(string code)
+        {
+            var fb = new Facebook.FacebookClient();
+            dynamic result = fb.Post("oauth/access_token", new
+            {
+                client_id = "1575063379408402",
+                client_secret = "d25a4799942e8f6d7a0cc6af79dbe624",
+                redirect_uri = RedirectUri.AbsoluteUri,
+                code = code
+            });
+
+            var accessToken = result.access_token;
+
+            // Store the access token in the session for farther use
+            Session["AccessToken"] = accessToken;
+
+            // update the facebook client with the access token so 
+            // we can make requests on behalf of the user
+            fb.AccessToken = accessToken;
+
+            // Get the user's information, like email, first name, middle name etc
+            dynamic me = fb.Get("me?fields=first_name,middle_name,last_name,id,email");
+            string email = me.email;
+            string firstname = me.first_name;
+            string middlename = me.middle_name;
+            string lastname = me.last_name;
+
+            try
+            {
+                new UserBL().Register(email, me.id, firstname, lastname);//register a new user
+            }
+            catch(Exception e)
+            {
+            }
+
+            // Set the auth cookie
+            FormsAuthentication.SetAuthCookie(email, false);
+            return RedirectToAction("Index", "Home");
+        }
+
+
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                if (ModelState.IsValid)
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    if (new UserBL().AuthenticateUserByUsernameAndPassword(model.Email, model.Password) != null)
                     {
-                        return Redirect(returnUrl);
+
+                        FormsAuthentication.SetAuthCookie(model.Email, true);
+                        string x = User.Identity.Name;
+                        return RedirectToAction("Index", "Home");
+
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        ModelState.AddModelError("", "The user name or password provided is incorrect.");
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
-                }
             }
+                
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -59,6 +134,7 @@ namespace Mvc_ShoppingCart.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
+            FormsAuthentication.SetAuthCookie("", true);
 
             return RedirectToAction("Index", "Home");
         }
@@ -85,26 +161,44 @@ namespace Mvc_ShoppingCart.Controllers
             var reply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));
 
             var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
-         
 
-            if (ModelState.IsValid)
+
+            if (captchaResponse.Success)
             {
-                // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
+                try
+                {
 
-                if (createStatus == MembershipCreateStatus.Success)
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
+                    new UserBL().Register(model.Email, model.Password, model.Name, model.Surname);//register a new user
+
+                    // If we got this far, something failed, redisplay form
+                    return RedirectToAction("Index", "Home");//back to home page
                 }
-                else
+
+
+                catch (MissingFieldException mfe)
                 {
-                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
+                    foreach (var modelValue in ModelState.Values)
+                    {
+                        modelValue.Errors.Clear();
+                    }
+
+                    if (mfe.Message == "Email already Registered")
+                    {
+                        ModelState.AddModelError("Email", "Email address already exists. Please enter a different email address.");
+                    }
+                    if (mfe.Message == "Week Password")
+                    {
+                        ModelState.AddModelError("Password", "Your Password is Week. Please try a Different Password");
+                    }
                 }
             }
+            else ModelState.AddModelError(string.Empty, "Please Tick the Verification box to Proceed");
+                
+            
 
-            // If we got this far, something failed, redisplay form
+
+
+
             return View(model);
         }
 

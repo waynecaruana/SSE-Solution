@@ -30,8 +30,8 @@ namespace Mvc_ShoppingCart.Models
     public class LogOnModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -45,8 +45,12 @@ namespace Mvc_ShoppingCart.Models
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [Display(Name = "First name")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string Surname { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]

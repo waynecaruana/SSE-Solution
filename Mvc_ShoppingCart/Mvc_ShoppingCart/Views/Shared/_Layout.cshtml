@@ -13,10 +13,43 @@ type="text/javascript"></script>
         <h1>
             ASP.NET MVC MUSIC STORE</h1>
         <ul id="navlist">
-            <li class="first"><a href="/"
-id="current">Home</a></li>
-            <li><a
-href="/Store/">Store</a></li>
+
+            <li class="first"> @Html.ActionLink("Home", "Index", "Home")</li>
+            <li class="first"> @Html.ActionLink("Store", "Index", "Store")</li>
+            <li class="first"> @Html.ActionLink("Manage Products", "Index", "StoreManager")</li>
+
+        
+
+            @if (User.Identity.Name != "")
+            {
+
+                List<Common.Role> userRoles = new BusinessLogic.RoleBL().GetUserRoles(User.Identity.Name).ToList();
+                List<Common.Menu> userMenu =  new List<Common.Menu>();
+
+                foreach (Common.Role r in userRoles)
+                {
+                   
+                    userMenu = new BusinessLogic.MenuBL().GetMenus(r.RoleID).ToList();
+                    ViewBag.Menus = userMenu;
+                }
+                
+                foreach (Common.Menu m in userMenu.Distinct())
+                {
+                    @*<li class="first"> @Html.ActionLink(m.MenuName, m.IndexName, m.FolderName)</li>*@
+                }
+            }
+            
+            
+
+
+            @if (User.Identity.Name == "")
+            {
+                <li class="first"> @Html.ActionLink("Log On", "LogOn", "Account")</li>
+            }
+            else
+            {
+                <li class="first"> @Html.ActionLink("Log Off", "LogOff", "Account")</li>
+            }
         </ul>
     </div>
     @RenderBody()

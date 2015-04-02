@@ -14,5 +14,10 @@ namespace DataAccess
         {
             return entities.Genres.ToList();
         }
+
+        public Genre GetGenreByID(int id)
+        {
+            return entities.Genres.SingleOrDefault(g => g.GenreID == id);
+        }
     }
 }

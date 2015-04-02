@@ -17,6 +17,15 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
+#region EDM Relationship Metadata
+
+[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "UserRoles", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Role), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.User))]
+[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "MenuRoles", "Menu", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Menu), "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Role))]
+[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_Products_Genres", "Genre", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.Genre), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
+[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_Products_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.User), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
+
+#endregion
+
 namespace Common
 {
     #region Contexts
@@ -80,6 +89,70 @@ namespace Common
             }
         }
         private ObjectSet<Genre> _Genres;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Role> Roles
+        {
+            get
+            {
+                if ((_Roles == null))
+                {
+                    _Roles = base.CreateObjectSet<Role>("Roles");
+                }
+                return _Roles;
+            }
+        }
+        private ObjectSet<Role> _Roles;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<User> Users
+        {
+            get
+            {
+                if ((_Users == null))
+                {
+                    _Users = base.CreateObjectSet<User>("Users");
+                }
+                return _Users;
+            }
+        }
+        private ObjectSet<User> _Users;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Menu> Menus
+        {
+            get
+            {
+                if ((_Menus == null))
+                {
+                    _Menus = base.CreateObjectSet<Menu>("Menus");
+                }
+                return _Menus;
+            }
+        }
+        private ObjectSet<Menu> _Menus;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Product> Products
+        {
+            get
+            {
+                if ((_Products == null))
+                {
+                    _Products = base.CreateObjectSet<Product>("Products");
+                }
+                return _Products;
+            }
+        }
+        private ObjectSet<Product> _Products;
 
         #endregion
 
@@ -91,6 +164,38 @@ namespace Common
         public void AddToGenres(Genre genre)
         {
             base.AddObject("Genres", genre);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Roles EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToRoles(Role role)
+        {
+            base.AddObject("Roles", role);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Users EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToUsers(User user)
+        {
+            base.AddObject("Users", user);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Menus EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToMenus(Menu menu)
+        {
+            base.AddObject("Menus", menu);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Products EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToProducts(Product product)
+        {
+            base.AddObject("Products", product);
         }
 
         #endregion
@@ -204,6 +309,846 @@ namespace Common
         #endregion
 
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_Products_Genres", "Product")]
+        public EntityCollection<Product> Products
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Product>("SecureShoppingCartDBModel.FK_Products_Genres", "Product");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Product>("SecureShoppingCartDBModel.FK_Products_Genres", "Product", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="SecureShoppingCartDBModel", Name="Menu")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Menu : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Menu object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        public static Menu CreateMenu(global::System.Int32 id)
+        {
+            Menu menu = new Menu();
+            menu.ID = id;
+            return menu;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MenuName
+        {
+            get
+            {
+                return _MenuName;
+            }
+            set
+            {
+                OnMenuNameChanging(value);
+                ReportPropertyChanging("MenuName");
+                _MenuName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("MenuName");
+                OnMenuNameChanged();
+            }
+        }
+        private global::System.String _MenuName;
+        partial void OnMenuNameChanging(global::System.String value);
+        partial void OnMenuNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String IndexName
+        {
+            get
+            {
+                return _IndexName;
+            }
+            set
+            {
+                OnIndexNameChanging(value);
+                ReportPropertyChanging("IndexName");
+                _IndexName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("IndexName");
+                OnIndexNameChanged();
+            }
+        }
+        private global::System.String _IndexName;
+        partial void OnIndexNameChanging(global::System.String value);
+        partial void OnIndexNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FolderName
+        {
+            get
+            {
+                return _FolderName;
+            }
+            set
+            {
+                OnFolderNameChanging(value);
+                ReportPropertyChanging("FolderName");
+                _FolderName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FolderName");
+                OnFolderNameChanged();
+            }
+        }
+        private global::System.String _FolderName;
+        partial void OnFolderNameChanging(global::System.String value);
+        partial void OnFolderNameChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "MenuRoles", "Role")]
+        public EntityCollection<Role> Roles
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Role>("SecureShoppingCartDBModel.MenuRoles", "Role");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Role>("SecureShoppingCartDBModel.MenuRoles", "Role", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="SecureShoppingCartDBModel", Name="Product")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Product : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Product object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        public static Product CreateProduct(global::System.Int32 id)
+        {
+            Product product = new Product();
+            product.ID = id;
+            return product;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ImagePath
+        {
+            get
+            {
+                return _ImagePath;
+            }
+            set
+            {
+                OnImagePathChanging(value);
+                ReportPropertyChanging("ImagePath");
+                _ImagePath = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ImagePath");
+                OnImagePathChanged();
+            }
+        }
+        private global::System.String _ImagePath;
+        partial void OnImagePathChanging(global::System.String value);
+        partial void OnImagePathChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Stock
+        {
+            get
+            {
+                return _Stock;
+            }
+            set
+            {
+                OnStockChanging(value);
+                ReportPropertyChanging("Stock");
+                _Stock = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Stock");
+                OnStockChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Stock;
+        partial void OnStockChanging(Nullable<global::System.Int32> value);
+        partial void OnStockChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> SoldQty
+        {
+            get
+            {
+                return _SoldQty;
+            }
+            set
+            {
+                OnSoldQtyChanging(value);
+                ReportPropertyChanging("SoldQty");
+                _SoldQty = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SoldQty");
+                OnSoldQtyChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _SoldQty;
+        partial void OnSoldQtyChanging(Nullable<global::System.Int32> value);
+        partial void OnSoldQtyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> Price
+        {
+            get
+            {
+                return _Price;
+            }
+            set
+            {
+                OnPriceChanging(value);
+                ReportPropertyChanging("Price");
+                _Price = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Price");
+                OnPriceChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _Price;
+        partial void OnPriceChanging(Nullable<global::System.Decimal> value);
+        partial void OnPriceChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> DateListed
+        {
+            get
+            {
+                return _DateListed;
+            }
+            set
+            {
+                OnDateListedChanging(value);
+                ReportPropertyChanging("DateListed");
+                _DateListed = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DateListed");
+                OnDateListedChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _DateListed;
+        partial void OnDateListedChanging(Nullable<global::System.DateTime> value);
+        partial void OnDateListedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SellerEmail
+        {
+            get
+            {
+                return _SellerEmail;
+            }
+            set
+            {
+                OnSellerEmailChanging(value);
+                ReportPropertyChanging("SellerEmail");
+                _SellerEmail = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SellerEmail");
+                OnSellerEmailChanged();
+            }
+        }
+        private global::System.String _SellerEmail;
+        partial void OnSellerEmailChanging(global::System.String value);
+        partial void OnSellerEmailChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> GenreID
+        {
+            get
+            {
+                return _GenreID;
+            }
+            set
+            {
+                OnGenreIDChanging(value);
+                ReportPropertyChanging("GenreID");
+                _GenreID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("GenreID");
+                OnGenreIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _GenreID;
+        partial void OnGenreIDChanging(Nullable<global::System.Int32> value);
+        partial void OnGenreIDChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_Products_Genres", "Genre")]
+        public Genre Genre
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Genre>("SecureShoppingCartDBModel.FK_Products_Genres", "Genre").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Genre>("SecureShoppingCartDBModel.FK_Products_Genres", "Genre").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Genre> GenreReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Genre>("SecureShoppingCartDBModel.FK_Products_Genres", "Genre");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Genre>("SecureShoppingCartDBModel.FK_Products_Genres", "Genre", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_Products_Users", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("SecureShoppingCartDBModel.FK_Products_Users", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("SecureShoppingCartDBModel.FK_Products_Users", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("SecureShoppingCartDBModel.FK_Products_Users", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("SecureShoppingCartDBModel.FK_Products_Users", "User", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="SecureShoppingCartDBModel", Name="Role")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Role : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Role object.
+        /// </summary>
+        /// <param name="roleID">Initial value of the RoleID property.</param>
+        public static Role CreateRole(global::System.Int32 roleID)
+        {
+            Role role = new Role();
+            role.RoleID = roleID;
+            return role;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 RoleID
+        {
+            get
+            {
+                return _RoleID;
+            }
+            set
+            {
+                if (_RoleID != value)
+                {
+                    OnRoleIDChanging(value);
+                    ReportPropertyChanging("RoleID");
+                    _RoleID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("RoleID");
+                    OnRoleIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _RoleID;
+        partial void OnRoleIDChanging(global::System.Int32 value);
+        partial void OnRoleIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "UserRoles", "User")]
+        public EntityCollection<User> Users
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("SecureShoppingCartDBModel.UserRoles", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("SecureShoppingCartDBModel.UserRoles", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "MenuRoles", "Menu")]
+        public EntityCollection<Menu> Menus
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Menu>("SecureShoppingCartDBModel.MenuRoles", "Menu");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Menu>("SecureShoppingCartDBModel.MenuRoles", "Menu", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="SecureShoppingCartDBModel", Name="User")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class User : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new User object.
+        /// </summary>
+        /// <param name="email">Initial value of the Email property.</param>
+        public static User CreateUser(global::System.String email)
+        {
+            User user = new User();
+            user.Email = email;
+            return user;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Email
+        {
+            get
+            {
+                return _Email;
+            }
+            set
+            {
+                if (_Email != value)
+                {
+                    OnEmailChanging(value);
+                    ReportPropertyChanging("Email");
+                    _Email = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("Email");
+                    OnEmailChanged();
+                }
+            }
+        }
+        private global::System.String _Email;
+        partial void OnEmailChanging(global::System.String value);
+        partial void OnEmailChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                OnPasswordChanging(value);
+                ReportPropertyChanging("Password");
+                _Password = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Password");
+                OnPasswordChanged();
+            }
+        }
+        private global::System.String _Password;
+        partial void OnPasswordChanging(global::System.String value);
+        partial void OnPasswordChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Firstname
+        {
+            get
+            {
+                return _Firstname;
+            }
+            set
+            {
+                OnFirstnameChanging(value);
+                ReportPropertyChanging("Firstname");
+                _Firstname = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Firstname");
+                OnFirstnameChanged();
+            }
+        }
+        private global::System.String _Firstname;
+        partial void OnFirstnameChanging(global::System.String value);
+        partial void OnFirstnameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Lastname
+        {
+            get
+            {
+                return _Lastname;
+            }
+            set
+            {
+                OnLastnameChanging(value);
+                ReportPropertyChanging("Lastname");
+                _Lastname = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Lastname");
+                OnLastnameChanged();
+            }
+        }
+        private global::System.String _Lastname;
+        partial void OnLastnameChanging(global::System.String value);
+        partial void OnLastnameChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "UserRoles", "Role")]
+        public EntityCollection<Role> Roles
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Role>("SecureShoppingCartDBModel.UserRoles", "Role");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Role>("SecureShoppingCartDBModel.UserRoles", "Role", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_Products_Users", "Product")]
+        public EntityCollection<Product> Products
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Product>("SecureShoppingCartDBModel.FK_Products_Users", "Product");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Product>("SecureShoppingCartDBModel.FK_Products_Users", "Product", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
 
     #endregion

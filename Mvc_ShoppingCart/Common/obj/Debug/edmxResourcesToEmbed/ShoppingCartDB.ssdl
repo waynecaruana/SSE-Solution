@@ -2,6 +2,36 @@
 <Schema Namespace="SecureShoppingCartDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="SecureShoppingCartDBModelStoreContainer">
     <EntitySet Name="Genres" EntityType="SecureShoppingCartDBModel.Store.Genres" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MenuRoles" EntityType="SecureShoppingCartDBModel.Store.MenuRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Menus" EntityType="SecureShoppingCartDBModel.Store.Menus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Products" EntityType="SecureShoppingCartDBModel.Store.Products" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Roles" EntityType="SecureShoppingCartDBModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserRoles" EntityType="SecureShoppingCartDBModel.Store.UserRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="SecureShoppingCartDBModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_MenuRoles_Menus" Association="SecureShoppingCartDBModel.Store.FK_MenuRoles_Menus">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="MenuRoles" EntitySet="MenuRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MenuRoles_Roles" Association="SecureShoppingCartDBModel.Store.FK_MenuRoles_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="MenuRoles" EntitySet="MenuRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Genres" Association="SecureShoppingCartDBModel.Store.FK_Products_Genres">
+      <End Role="Genres" EntitySet="Genres" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Users" Association="SecureShoppingCartDBModel.Store.FK_Products_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoles_Roles" Association="SecureShoppingCartDBModel.Store.FK_UserRoles_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoles_Users" Association="SecureShoppingCartDBModel.Store.FK_UserRoles_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Genres">
     <Key>
@@ -11,4 +41,132 @@
     <Property Name="Name" Type="varchar" MaxLength="50" />
     <Property Name="Description" Type="varchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="MenuRoles">
+    <Key>
+      <PropertyRef Name="MenuID" />
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="MenuID" Type="int" Nullable="false" />
+    <Property Name="RoleID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Menus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="MenuName" Type="varchar" MaxLength="50" />
+    <Property Name="IndexName" Type="varchar" MaxLength="50" />
+    <Property Name="FolderName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar" MaxLength="300" />
+    <Property Name="ImagePath" Type="varchar" MaxLength="300" />
+    <Property Name="Stock" Type="int" />
+    <Property Name="SoldQty" Type="int" />
+    <Property Name="Price" Type="decimal" Scale="2" />
+    <Property Name="DateListed" Type="date" />
+    <Property Name="SellerEmail" Type="varchar" MaxLength="50" />
+    <Property Name="GenreID" Type="int" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="UserRoles">
+    <Key>
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="Email" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="RoleID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Firstname" Type="varchar" MaxLength="50" />
+    <Property Name="Lastname" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_MenuRoles_Menus">
+    <End Role="Menus" Type="SecureShoppingCartDBModel.Store.Menus" Multiplicity="1" />
+    <End Role="MenuRoles" Type="SecureShoppingCartDBModel.Store.MenuRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MenuRoles">
+        <PropertyRef Name="MenuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MenuRoles_Roles">
+    <End Role="Roles" Type="SecureShoppingCartDBModel.Store.Roles" Multiplicity="1" />
+    <End Role="MenuRoles" Type="SecureShoppingCartDBModel.Store.MenuRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="MenuRoles">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Genres">
+    <End Role="Genres" Type="SecureShoppingCartDBModel.Store.Genres" Multiplicity="0..1" />
+    <End Role="Products" Type="SecureShoppingCartDBModel.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genres">
+        <PropertyRef Name="GenreID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="GenreID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Users">
+    <End Role="Users" Type="SecureShoppingCartDBModel.Store.Users" Multiplicity="0..1" />
+    <End Role="Products" Type="SecureShoppingCartDBModel.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="SellerEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoles_Roles">
+    <End Role="Roles" Type="SecureShoppingCartDBModel.Store.Roles" Multiplicity="1" />
+    <End Role="UserRoles" Type="SecureShoppingCartDBModel.Store.UserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoles_Users">
+    <End Role="Users" Type="SecureShoppingCartDBModel.Store.Users" Multiplicity="1" />
+    <End Role="UserRoles" Type="SecureShoppingCartDBModel.Store.UserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="Email" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

@@ -13,5 +13,10 @@ namespace BusinessLogic
         {
             return new GenreRepository().GetAllGenres();
         }
+
+        public Genre GetGenreByID(int id)
+        {
+            return new GenreRepository().GetGenreByID(id);
+        }
     }
 }

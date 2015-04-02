@@ -14,7 +14,7 @@ namespace Mvc_ShoppingCart.Controllers
     {
        //
         // GET: /Store/
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
             var genres = new GenreBL().GetAllGenres().ToList();
@@ -24,15 +24,20 @@ namespace Mvc_ShoppingCart.Controllers
         // GET: /Store/Browse
         public ActionResult Browse(string genre)
         {
-            var genreModel = new Mvc_ShoppingCart.Models.Genre { Name = genre };
+            //var genreModel = new Mvc_ShoppingCart.Models.Genre { Name = genre };
+            //return View(genreModel);
+
+            var genreModel = new ProductBL().GetProductsByGenre(genre);
             return View(genreModel);
         }
+
         //
         // GET: /Store/Details
         public ActionResult Details(int id)
         {
-            var album = new Album { Title = "Album " + id };
-            return View(album);
+            var product = new ProductBL().GetProductsByID(id);
+
+            return View(product);
         }
     
 

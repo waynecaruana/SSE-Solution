@@ -1,7 +1,12 @@
-﻿@model Mvc_ShoppingCart.Models.Album
-
+﻿
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Album: @Model.Title</h2>
+ @{
+     Common.Product p = Model;
+ }
+
+<h2>Product: @p.Name</h2>
+
+

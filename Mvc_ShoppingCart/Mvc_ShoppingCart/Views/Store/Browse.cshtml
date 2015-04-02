@@ -1,7 +1,20 @@
-﻿@model Mvc_ShoppingCart.Models.Genre
+﻿@model IEnumerable<Common.Product>
 
 @{
     ViewBag.Title = "Browse";
 }
 
-<h2>Browsing Genre: @Model.Name</h2>
+<h3>Browse Products</h3>
+<p>
+    Select from @Model.Count()
+products:</p>
+
+<ul>
+    @foreach (var product in Model)
+    {
+        <li>
+            @Html.ActionLink(product.Name, "Details", new { id = product.ID })
+        </li>
+          
+    }
+</ul>

@@ -2,6 +2,26 @@
 <Schema Namespace="SecureShoppingCartDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
   <EntityContainer Name="SecureShoppingCartDBEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Genres" EntityType="SecureShoppingCartDBModel.Genre" />
+    <EntitySet Name="Roles" EntityType="SecureShoppingCartDBModel.Role" />
+    <EntitySet Name="Users" EntityType="SecureShoppingCartDBModel.User" />
+    <AssociationSet Name="UserRoles" Association="SecureShoppingCartDBModel.UserRoles">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="Menus" EntityType="SecureShoppingCartDBModel.Menu" />
+    <AssociationSet Name="MenuRoles" Association="SecureShoppingCartDBModel.MenuRoles">
+      <End Role="Menu" EntitySet="Menus" />
+      <End Role="Role" EntitySet="Roles" />
+    </AssociationSet>
+    <EntitySet Name="Products" EntityType="SecureShoppingCartDBModel.Product" />
+    <AssociationSet Name="FK_Products_Genres" Association="SecureShoppingCartDBModel.FK_Products_Genres">
+      <End Role="Genre" EntitySet="Genres" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Users" Association="SecureShoppingCartDBModel.FK_Products_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Genre">
     <Key>
@@ -10,5 +30,85 @@
     <Property Name="GenreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="Description" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Products" Relationship="SecureShoppingCartDBModel.FK_Products_Genres" FromRole="Genre" ToRole="Product" />
   </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Type="Int32" Name="RoleID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Users" Relationship="SecureShoppingCartDBModel.UserRoles" FromRole="Role" ToRole="User" />
+    <NavigationProperty Name="Menus" Relationship="SecureShoppingCartDBModel.MenuRoles" FromRole="Role" ToRole="Menu" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Password" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Firstname" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Lastname" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Roles" Relationship="SecureShoppingCartDBModel.UserRoles" FromRole="User" ToRole="Role" />
+    <NavigationProperty Name="Products" Relationship="SecureShoppingCartDBModel.FK_Products_Users" FromRole="User" ToRole="Product" />
+  </EntityType>
+  <Association Name="UserRoles">
+    <End Type="SecureShoppingCartDBModel.Role" Role="Role" Multiplicity="*" />
+    <End Type="SecureShoppingCartDBModel.User" Role="User" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="MenuName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="IndexName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FolderName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Roles" Relationship="SecureShoppingCartDBModel.MenuRoles" FromRole="Menu" ToRole="Role" />
+  </EntityType>
+  <Association Name="MenuRoles">
+    <End Type="SecureShoppingCartDBModel.Menu" Role="Menu" Multiplicity="*" />
+    <End Type="SecureShoppingCartDBModel.Role" Role="Role" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Description" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ImagePath" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Stock" />
+    <Property Type="Int32" Name="SoldQty" />
+    <Property Type="Decimal" Name="Price" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="DateListed" />
+    <Property Type="String" Name="SellerEmail" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="GenreID" />
+    <NavigationProperty Name="Genre" Relationship="SecureShoppingCartDBModel.FK_Products_Genres" FromRole="Product" ToRole="Genre" />
+    <NavigationProperty Name="User" Relationship="SecureShoppingCartDBModel.FK_Products_Users" FromRole="Product" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Products_Genres">
+    <End Type="SecureShoppingCartDBModel.Genre" Role="Genre" Multiplicity="0..1" />
+    <End Type="SecureShoppingCartDBModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="GenreID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="GenreID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Users">
+    <End Type="SecureShoppingCartDBModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="SecureShoppingCartDBModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="SellerEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

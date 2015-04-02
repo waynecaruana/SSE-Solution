@@ -1,7 +1,7 @@
 ﻿@model Mvc_ShoppingCart.Models.LogOnModel
-
 @{
     ViewBag.Title = "Log On";
+   
 }
 
 <h2>Log On</h2>
@@ -14,17 +14,18 @@
 
 @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     <div>
         <fieldset>
             <legend>Account Information</legend>
 
             <div class="editor-label">
-                @Html.LabelFor(m => m.UserName)
+                @Html.LabelFor(m => m.Email)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
             </div>
 
             <div class="editor-label">
@@ -35,14 +36,24 @@
                 @Html.ValidationMessageFor(m => m.Password)
             </div>
 
-            <div class="editor-label">
+            @*<div class="editor-label">
                 @Html.CheckBoxFor(m => m.RememberMe)
                 @Html.LabelFor(m => m.RememberMe)
-            </div>
+            </div>*@
 
             <p>
                 <input type="submit" value="Log On" />
+                @Html.ActionLink("Login with Facebook.", "Facebook","Account")
+              
+                
             </p>
         </fieldset>
+
+
     </div>
+    
+
 }
+
+
+
