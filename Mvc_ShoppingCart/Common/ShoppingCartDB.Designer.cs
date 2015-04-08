@@ -757,6 +757,18 @@ namespace Common
             }
         }
         private Nullable<global::System.Int32> _GenreID;
+        private int p;
+
+        public Product(int p)
+        {
+            // TODO: Complete member initialization
+            this.p = p;
+        }
+
+        public Product()
+        {
+            // TODO: Complete member initialization
+        }
         partial void OnGenreIDChanging(Nullable<global::System.Int32> value);
         partial void OnGenreIDChanged();
 

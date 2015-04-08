@@ -10,7 +10,7 @@
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Edit", "StoreManager", FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Product</legend>
@@ -33,14 +33,13 @@
             @Html.ValidationMessageFor(model => model.Description)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ImagePath)
+       
+       <div class="editor-label">
+            <label for="file">Upload Image</label> 
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.ImagePath)
-            @Html.ValidationMessageFor(model => model.ImagePath)
+            <input type="file" name="file" id="file" style="width: 100%;" /> 
         </div>
-
         <div class="editor-label">
             @Html.LabelFor(model => model.Stock)
         </div>
@@ -49,13 +48,7 @@
             @Html.ValidationMessageFor(model => model.Stock)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SoldQty)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SoldQty)
-            @Html.ValidationMessageFor(model => model.SoldQty)
-        </div>
+       
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Price)
@@ -65,29 +58,24 @@
             @Html.ValidationMessageFor(model => model.Price)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DateListed)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateListed)
-            @Html.ValidationMessageFor(model => model.DateListed)
-        </div>
+       
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SellerEmail)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SellerEmail)
-            @Html.ValidationMessageFor(model => model.SellerEmail)
-        </div>
+            @{
+    List<SelectListItem> genres = new BusinessLogic.GenreBL().GetAllGenres().Select(x => new SelectListItem()
+    {
+        Text = x.Name,
+        Value = x.GenreID.ToString()
+    }).ToList();
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.GenreID)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.GenreID)
-            @Html.ValidationMessageFor(model => model.GenreID)
-        </div>
+                <div class="editor-label">
+                    @Html.Label("Genre")
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.GenreID, genres, "Please Select")
+                    @Html.ValidationMessageFor(model => model.Genre)
+                </div>
+                
+            }
 
         <p>
             <input type="submit" value="Save" />

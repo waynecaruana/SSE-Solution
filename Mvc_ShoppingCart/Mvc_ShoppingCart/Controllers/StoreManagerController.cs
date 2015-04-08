@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BusinessLogic;
 using Common;
 
+
 namespace Mvc_ShoppingCart.Controllers
 {
     public class StoreManagerController : Controller
@@ -40,18 +41,35 @@ namespace Mvc_ShoppingCart.Controllers
         // POST: /StoreManager/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Product model)
         {
+            HttpPostedFileBase file = Request.Files[0];
+            byte[] imageSize = new byte[file.ContentLength];
+            file.InputStream.Read(imageSize, 0, (int)file.ContentLength);
+            string image = file.FileName.Split('\\').Last();
+            int size = file.ContentLength;
+
+            if (size > 0)
+            {
+                file.SaveAs(Server.MapPath("~/Content/productImages/" + image.ToString()));
+                //Save image url to database
+            }
+            else
+            {
+                image = "na.jpg";
+            }
+
             try
             {
-                // TODO: Add insert logic here
-
+                new ProductBL().AddProduct(model.Name, model.Description, "/Content/productImages/"+image.ToString(), Convert.ToInt32(model.Stock), Convert.ToDecimal(model.Price), User.Identity.Name,model.GenreID.ToString());
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception e)
             {
+                string ex = e.Message;
                 return View();
             }
+        
         }
         
         //
@@ -59,19 +77,39 @@ namespace Mvc_ShoppingCart.Controllers
  
         public ActionResult Edit(int id)
         {
-            return View();
+            Product p = new ProductBL().GetProductsByID(id);
+            return View(p);
         }
 
         //
         // POST: /StoreManager/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, FormCollection collection, Product model)
         {
             try
             {
+
+                HttpPostedFileBase file = Request.Files[0];
+                byte[] imageSize = new byte[file.ContentLength];
+                file.InputStream.Read(imageSize, 0, (int)file.ContentLength);
+                string image = file.FileName.Split('\\').Last();
+                int size = file.ContentLength;
+
+                if (size > 0)
+                {
+                    file.SaveAs(Server.MapPath("~/Content/images/" + image.ToString()));
+                    //Save image url to database
+                }
+                else
+                {
+                    image = "na.jpg";
+                }
                 // TODO: Add update logic here
- 
+                //Product p = new ProductsBL().GetProductByID(id);
+                //new ProductModel(id);
+                new ProductBL().UpdateProduct(id,model.Name, model.Description, "/Content/productImages/" + image.ToString(), Convert.ToInt32(model.Stock), Convert.ToDecimal(model.Price), User.Identity.Name, model.GenreID.ToString());
+
                 return RedirectToAction("Index");
             }
             catch
@@ -85,7 +123,8 @@ namespace Mvc_ShoppingCart.Controllers
  
         public ActionResult Delete(int id)
         {
-            return View();
+            new ProductBL().DeleteProduct(id);
+            return RedirectToAction("Index", "StoreManager");
         }
 
         //

@@ -44,8 +44,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImagePath)
+         <td>
+           <img alt="" src="@Html.DisplayFor(modelItem => item.ImagePath)"  style="width:100px; height:100px;"/>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Stock)

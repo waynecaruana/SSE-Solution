@@ -41,5 +41,41 @@ namespace DataAccess
          {
              return entities.Products.Where(p => p.SellerEmail == sellerEmail);
          }
+
+         /// <summary>
+         /// This method is used to add a product
+         /// </summary>
+         /// <param name="entry">a product enrty</param>
+         public void AddProduct(Product entry)
+         {
+
+             entities.AddToProducts(entry);
+             entities.SaveChanges();
+
+         }
+
+         /// <summary>
+         /// This method allow us to update a product
+         /// </summary>
+         /// <param name="p">product</param>
+         public void UpdateProduct(Product p)
+         {
+             entities.Products.Attach(GetProductsByID(p.ID));
+             entities.Products.ApplyCurrentValues(p);
+
+             entities.SaveChanges();
+         }
+
+         /// <summary>
+         /// this method is used to delete a product
+         /// </summary>
+         /// <param name="entry">product</param>
+         public void DeleteProduct(Product entry)
+         {
+
+             entities.Products.DeleteObject(entry);
+             entities.SaveChanges();
+
+         }
     }
 }
