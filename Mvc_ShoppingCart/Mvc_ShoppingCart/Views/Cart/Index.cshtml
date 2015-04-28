@@ -1,0 +1,199 @@
+﻿@model IEnumerable<Common.ShoppingCart>
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Shopping Cart</h2>
+
+
+@{
+    decimal granTotal = 0;
+}
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Image
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Unit Price
+        </th>
+        <th>
+            Total Price
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+
+    Common.Product p = new BusinessLogic.ProductBL().GetProductsByID(item.ProductID);
+    granTotal += (Convert.ToDecimal(p.Price) * Convert.ToInt32(item.Qty));
+    if (p.Stock < item.Qty)
+    {  
+ 
+    <tr bgcolor="red">
+
+        <td>
+        
+            @p.Name
+   
+        </td>
+        <td>
+            @p.Description
+        </td>
+        <td>
+            <img alt="" src=" @p.ImagePath" style="width:100px; height:100px;"/>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+         <td>
+            @p.Price
+        </td>
+         <td>
+            @(Convert.ToDecimal(p.Price) * Convert.ToInt32(item.Qty))
+           
+        </td>
+        
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */}) |*@
+            @Html.ActionLink("Delete", "Delete", new { Username = item.Email, ProductID = item.ProductID })
+        </td>
+    </tr>
+    }
+    else
+    {
+        <tr>
+        <td>
+        
+            @p.Name
+   
+        </td>
+        <td>
+            @p.Description
+        </td>
+        <td>
+            <img alt="" src=" @p.ImagePath" style="width:100px; height:100px;"/>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+         <td>
+            @p.Price
+        </td>
+         <td>
+            @(Convert.ToDecimal(p.Price) * @Convert.ToInt32(item.Qty))
+        </td>
+        
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */}) |*@
+            @Html.ActionLink("Delete", "Delete", new { Username = item.Email, ProductID = item.ProductID })
+        </td>
+        </tr>
+    }
+
+}
+
+</table>
+
+<table style="border:0px;width:100%;text-align:right">
+    <tr style="border:0px;">
+        <td style="border:0px;">Total Price: €@granTotal
+        @using (Html.BeginForm("Checkout", "Cart", FormMethod.Get))
+        {
+            @ViewBag.Msg
+            <input id="btnCheckout" type="submit" value="Checkout" />
+            
+        }
+        </td>
+         
+    </tr>
+    
+</table>
+
+<h2>Bought Items</h2>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Image
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Unit Price
+        </th>
+        <th>
+            Total Price
+        </th>
+        <th></th>
+    </tr>
+
+
+   
+    
+    
+    @{
+        //get all products bought for the authenticated user
+        List<Common.OrderDetail> list = new BusinessLogic.ShoppingCartBL().GetItemBoughtByEmail(User.Identity.Name).ToList();
+        foreach (var item in list)
+        {
+            Common.Product p = new BusinessLogic.ProductBL().GetProductsByID(Convert.ToInt32(item.ProductID));
+            <tr>
+
+                <td>
+        
+                    @p.Name
+   
+                </td>
+                <td>
+                    @p.Description
+                </td>
+                <td>
+                    <img alt="" src=" @p.ImagePath" style="width:100px; height:100px;"/>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty)
+                </td>
+                 <td>
+                    @p.Price
+                </td>
+                 <td>
+                    @(Convert.ToDecimal(p.Price) * Convert.ToInt32(item.Qty))
+           
+                </td>
+        
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */}) 
+                    @Html.ActionLink("Download", "Delete", new { Username = item.Email, ProductID = item.ProductID })|*@
+                    Download
+                </td>
+            </tr>
+    
+        }
+       
+      }
+
+
+</table>
