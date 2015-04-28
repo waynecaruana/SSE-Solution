@@ -1,12 +1,61 @@
 ﻿
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
  @{
      Common.Product p = Model;
  }
 
-<h2>Product: @p.Name</h2>
+<fieldset>
+    <legend>@Html.DisplayFor(model => p.Name)</legend>
+
+
+    <table class="productDetails">
+        <tr class="productDetails">
+            <td  class="productDetails">
+                <img alt="" src="@Html.DisplayFor(model => p.ImagePath)" style="width:500px; height:500px;"/>
+            </td>
+            <td  class="productDetails">
+                <h3>Description</h3>
+                @Html.DisplayFor(model => p.Description)
+
+                <br/><br/>
+
+                <h3>Price: @Html.DisplayFor(model => p.Price)</h3>
+
+                @if (Html.DisplayFor(model => p.Stock).ToString() != "0")
+                {
+                    <h3>In Stock</h3>
+                }
+                else
+                {
+                    <h3>Out of Stock</h3>
+                }
+
+
+               
+                @using (Html.BeginForm("AddToShoppingCart", "Cart", FormMethod.Get))
+                {
+                    
+                    @Html.Label("Qty: ")
+                    @Html.TextBox("Quantity")
+                    Session["ProductID"] = @Html.DisplayFor(model => p.ID).ToString();
+                    <input id="btnAdd" type="submit" value="Add to Cart" />
+                    @ViewBag.Msg
+                }
+
+                
+                
+          
+            </td>
+        </tr>
+    </table>
+</fieldset>
+<p>
+
+    @Html.ActionLink("Back to List", "Index")
+</p>
 
 

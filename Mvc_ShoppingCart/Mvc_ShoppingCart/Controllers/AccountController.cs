@@ -155,7 +155,7 @@ namespace Mvc_ShoppingCart.Controllers
         {
             var response = Request["g-recaptcha-response"];
 
-            const string secret = "6LezkQQTAAAAAIrUxyd9TPDwaQSa1OYJseJB_tPv";
+            const string secret = "6LezkQQTAAAAAIrUxyd9TPDwaQSa1OYJseJB_tPv";//google re captch secret key
 
             var client = new WebClient();
             var reply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));

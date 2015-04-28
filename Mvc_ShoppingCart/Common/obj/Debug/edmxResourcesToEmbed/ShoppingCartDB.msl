@@ -21,6 +21,9 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="SecureShoppingCartDBModel.User">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+          <ScalarProperty Name="PrivateKey" ColumnName="PrivateKey" />
+          <ScalarProperty Name="Salt" ColumnName="Salt" />
           <ScalarProperty Name="Lastname" ColumnName="Lastname" />
           <ScalarProperty Name="Firstname" ColumnName="Firstname" />
           <ScalarProperty Name="Password" ColumnName="Password" />
@@ -57,6 +60,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="SecureShoppingCartDBModel.Product">
         <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="ZipPath" ColumnName="ZipPath" />
           <ScalarProperty Name="GenreID" ColumnName="GenreID" />
           <ScalarProperty Name="SellerEmail" ColumnName="SellerEmail" />
           <ScalarProperty Name="DateListed" ColumnName="DateListed" />

@@ -48,7 +48,7 @@ namespace BusinessLogic
         /// <param name="image">product image</param>
         /// <param name="stock">product quantity in stock</param>
         /// <param name="price">product price</param>
-        public void AddProduct(string name, string desc, string image, int stock, decimal price, string email, string genre)
+        public void AddProduct(string name, string desc, string image, string zip,int stock, decimal price, string email, string genre)
         {
 
 
@@ -58,6 +58,7 @@ namespace BusinessLogic
             p.Name = name;
             p.Description = desc;
             p.ImagePath = image;
+            p.ZipPath = zip;
             p.Stock = stock;
             p.Price = price;
             p.DateListed = DateTime.Now.Date;
@@ -77,7 +78,7 @@ namespace BusinessLogic
         /// <param name="stock">product stock</param>
         /// <param name="price">product price</param>
         /// <param name="email">user email</param>
-        public void UpdateProduct(int id, string name, string desc, string image, int stock, decimal price, string email, string genre)
+        public void UpdateProduct(int id, string name, string desc, string image,string zip, int stock, decimal price, string email, string genre)
         {
             User u = new UserRepository().GetUserByEmail(email);
 
@@ -86,6 +87,7 @@ namespace BusinessLogic
             p.Name = name;
             p.Description = desc;
             p.ImagePath = image;
+            p.ZipPath = zip;
             p.Stock = stock;
             p.Price = price;
             p.DateListed = DateTime.Now.Date;

@@ -17,6 +17,7 @@ type="text/javascript"></script>
             <li class="first"> @Html.ActionLink("Home", "Index", "Home")</li>
             <li class="first"> @Html.ActionLink("Store", "Index", "Store")</li>
             <li class="first"> @Html.ActionLink("Manage Products", "Index", "StoreManager")</li>
+            <li class="first"> @Html.ActionLink("Role Allocation", "AllocateRoles", "Admin")</li>
 
         
 
@@ -35,7 +36,7 @@ type="text/javascript"></script>
                 
                 foreach (Common.Menu m in userMenu.Distinct())
                 {
-                    @*<li class="first"> @Html.ActionLink(m.MenuName, m.IndexName, m.FolderName)</li>*@
+                    //<li class="first"> @Html.ActionLink(m.MenuName, m.IndexName, m.FolderName)</li>
                 }
             }
             

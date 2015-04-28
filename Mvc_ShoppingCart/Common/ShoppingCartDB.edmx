@@ -77,6 +77,7 @@
           <Property Name="DateListed" Type="date" />
           <Property Name="SellerEmail" Type="varchar" MaxLength="50" />
           <Property Name="GenreID" Type="int" />
+          <Property Name="ZipPath" Type="varchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -98,9 +99,12 @@
             <PropertyRef Name="Email" />
           </Key>
           <Property Name="Email" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="200" />
           <Property Name="Firstname" Type="varchar" MaxLength="50" />
           <Property Name="Lastname" Type="varchar" MaxLength="50" />
+          <Property Name="Salt" Type="varchar" MaxLength="200" />
+          <Property Name="PrivateKey" Type="varchar(max)" />
+          <Property Name="PublicKey" Type="varchar(max)" />
         </EntityType>
         <Association Name="FK_MenuRoles_Menus">
           <End Role="Menus" Type="SecureShoppingCartDBModel.Store.Menus" Multiplicity="1" />
@@ -229,6 +233,9 @@
           <Property Type="String" Name="Lastname" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Roles" Relationship="SecureShoppingCartDBModel.UserRoles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Products" Relationship="SecureShoppingCartDBModel.FK_Products_Users" FromRole="User" ToRole="Product" />
+          <Property Type="String" Name="Salt" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PrivateKey" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PublicKey" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="UserRoles">
           <End Type="SecureShoppingCartDBModel.Role" Role="Role" Multiplicity="*" />
@@ -264,6 +271,7 @@
           <Property Type="Int32" Name="GenreID" />
           <NavigationProperty Name="Genre" Relationship="SecureShoppingCartDBModel.FK_Products_Genres" FromRole="Product" ToRole="Genre" />
           <NavigationProperty Name="User" Relationship="SecureShoppingCartDBModel.FK_Products_Users" FromRole="Product" ToRole="User" />
+          <Property Type="String" Name="ZipPath" MaxLength="300" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Products_Genres">
           <End Type="SecureShoppingCartDBModel.Genre" Role="Genre" Multiplicity="0..1" />
@@ -315,6 +323,9 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="SecureShoppingCartDBModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+                <ScalarProperty Name="PrivateKey" ColumnName="PrivateKey" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
                 <ScalarProperty Name="Lastname" ColumnName="Lastname" />
                 <ScalarProperty Name="Firstname" ColumnName="Firstname" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -351,6 +362,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="SecureShoppingCartDBModel.Product">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ZipPath" ColumnName="ZipPath" />
                 <ScalarProperty Name="GenreID" ColumnName="GenreID" />
                 <ScalarProperty Name="SellerEmail" ColumnName="SellerEmail" />
                 <ScalarProperty Name="DateListed" ColumnName="DateListed" />

@@ -51,6 +51,9 @@
     <Property Type="String" Name="Lastname" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Roles" Relationship="SecureShoppingCartDBModel.UserRoles" FromRole="User" ToRole="Role" />
     <NavigationProperty Name="Products" Relationship="SecureShoppingCartDBModel.FK_Products_Users" FromRole="User" ToRole="Product" />
+    <Property Type="String" Name="Salt" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PrivateKey" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PublicKey" MaxLength="200" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="UserRoles">
     <End Type="SecureShoppingCartDBModel.Role" Role="Role" Multiplicity="*" />
@@ -86,6 +89,7 @@
     <Property Type="Int32" Name="GenreID" />
     <NavigationProperty Name="Genre" Relationship="SecureShoppingCartDBModel.FK_Products_Genres" FromRole="Product" ToRole="Genre" />
     <NavigationProperty Name="User" Relationship="SecureShoppingCartDBModel.FK_Products_Users" FromRole="Product" ToRole="User" />
+    <Property Type="String" Name="ZipPath" MaxLength="300" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK_Products_Genres">
     <End Type="SecureShoppingCartDBModel.Genre" Role="Genre" Multiplicity="0..1" />

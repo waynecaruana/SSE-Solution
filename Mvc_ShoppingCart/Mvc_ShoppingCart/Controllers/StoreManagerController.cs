@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessLogic;
 using Common;
+using DataAccess;
 
 
 namespace Mvc_ShoppingCart.Controllers
@@ -43,6 +44,7 @@ namespace Mvc_ShoppingCart.Controllers
         [HttpPost]
         public ActionResult Create(Product model)
         {
+            //for image
             HttpPostedFileBase file = Request.Files[0];
             byte[] imageSize = new byte[file.ContentLength];
             file.InputStream.Read(imageSize, 0, (int)file.ContentLength);
@@ -59,9 +61,45 @@ namespace Mvc_ShoppingCart.Controllers
                 image = "na.jpg";
             }
 
+
+
+            //for zip
+            HttpPostedFileBase zip = Request.Files[1];
+            byte[] zipSize = new byte[zip.ContentLength];
+            zip.InputStream.Read(zipSize, 0, (int)zip.ContentLength);
+            string prog = zip.FileName.Split('\\').Last();
+            int zsize = zip.ContentLength;
+            var hexString = BitConverter.ToString(zipSize);
+
+            if (zsize > 0)
+            {
+                if (hexString.Replace("-", " ").StartsWith("52 61 72 21 1A 07 00") || hexString.Replace("-", " ").StartsWith("50 4B 03 04"))
+                {
+                    zip.SaveAs(Server.MapPath("~/Content/productZip/" + prog.ToString()));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid File Type");
+                    return View(model);
+                }
+                //Save image url to database
+            }
+            else
+            {
+                ModelState.AddModelError("", "Please Insert a Zip File");
+                return View(model);
+            }
+
+            User u = new UserBL().GetUserByEmail(User.Identity.Name);//get user for salt and pass
+            //Symmetric Encryption
+            EncryptionClass.SymmetricEncryptFile(Server.MapPath("~/Content/productZip/" + prog.ToString()), u.Password,u.Salt);
+            //System.IO.File.Delete(Server.MapPath("~/Content/productZip/" + prog.ToString()));
+            //EncryptionClass.DecryptSymmetricFile(Server.MapPath("~/Content/productZip/" + prog.Replace(".","Enc.").ToString()), u.Password, u.Salt);
+
+
             try
             {
-                new ProductBL().AddProduct(model.Name, model.Description, "/Content/productImages/"+image.ToString(), Convert.ToInt32(model.Stock), Convert.ToDecimal(model.Price), User.Identity.Name,model.GenreID.ToString());
+                new ProductBL().AddProduct(model.Name, model.Description, "/Content/productImages/" + image.ToString(), "/Content/productZip/" + prog.Replace(".","Enc.").ToString(), Convert.ToInt32(model.Stock), Convert.ToDecimal(model.Price), User.Identity.Name, model.GenreID.ToString());
                 return RedirectToAction("Index");
             }
             catch(Exception e)
@@ -105,10 +143,37 @@ namespace Mvc_ShoppingCart.Controllers
                 {
                     image = "na.jpg";
                 }
+
+
+
+                //for zip
+                HttpPostedFileBase zip = Request.Files[1];
+                byte[] zipSize = new byte[zip.ContentLength];
+                zip.InputStream.Read(zipSize, 0, (int)zip.ContentLength);
+                string prog = zip.FileName.Split('\\').Last();
+                int zsize = zip.ContentLength;
+                var hexString = BitConverter.ToString(zipSize);
+                if (zsize > 0)
+                {
+                    if (hexString.Replace("-", " ").StartsWith("52 61 72 21 1A 07 00") || hexString.Replace("-", " ").StartsWith("50 4B 03 04"))
+                    {
+                        zip.SaveAs(Server.MapPath("~/Content/productZip/" + prog.ToString()));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid File Type");
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Please Insert a Zip File");
+                    return View(model);
+                }
                 // TODO: Add update logic here
                 //Product p = new ProductsBL().GetProductByID(id);
                 //new ProductModel(id);
-                new ProductBL().UpdateProduct(id,model.Name, model.Description, "/Content/productImages/" + image.ToString(), Convert.ToInt32(model.Stock), Convert.ToDecimal(model.Price), User.Identity.Name, model.GenreID.ToString());
+                new ProductBL().UpdateProduct(id, model.Name, model.Description, "/Content/productImages/" + image.ToString(), "/Content/productZip/" + prog.ToString(), Convert.ToInt32(model.Stock), Convert.ToDecimal(model.Price), User.Identity.Name, model.GenreID.ToString());
 
                 return RedirectToAction("Index");
             }

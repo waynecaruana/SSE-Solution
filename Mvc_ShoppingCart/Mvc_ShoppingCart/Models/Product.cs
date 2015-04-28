@@ -15,9 +15,16 @@ namespace Mvc_ShoppingCart.Models
         public int ID { get; set; }
         public int GenreId { get; set; }
         public int SellerId { get; set; }
+        
+        [Required]
         public string Title { get; set; }
+
+        [Required]
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
+
+        [Required]
+        public string ZipPath { get; set; }
         public Genre Genre { get; set; }
         public Seller Seller { get; set; }
 

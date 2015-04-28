@@ -72,6 +72,7 @@
     <Property Name="DateListed" Type="date" />
     <Property Name="SellerEmail" Type="varchar" MaxLength="50" />
     <Property Name="GenreID" Type="int" />
+    <Property Name="ZipPath" Type="varchar" MaxLength="300" />
   </EntityType>
   <EntityType Name="Roles">
     <Key>
@@ -93,9 +94,12 @@
       <PropertyRef Name="Email" />
     </Key>
     <Property Name="Email" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="200" />
     <Property Name="Firstname" Type="varchar" MaxLength="50" />
     <Property Name="Lastname" Type="varchar" MaxLength="50" />
+    <Property Name="Salt" Type="varchar" MaxLength="200" />
+    <Property Name="PrivateKey" Type="varchar(max)" />
+    <Property Name="PublicKey" Type="varchar(max)" />
   </EntityType>
   <Association Name="FK_MenuRoles_Menus">
     <End Role="Menus" Type="SecureShoppingCartDBModel.Store.Menus" Multiplicity="1" />

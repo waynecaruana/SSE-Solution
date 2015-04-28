@@ -757,20 +757,32 @@ namespace Common
             }
         }
         private Nullable<global::System.Int32> _GenreID;
-        private int p;
-
-        public Product(int p)
-        {
-            // TODO: Complete member initialization
-            this.p = p;
-        }
-
-        public Product()
-        {
-            // TODO: Complete member initialization
-        }
         partial void OnGenreIDChanging(Nullable<global::System.Int32> value);
         partial void OnGenreIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ZipPath
+        {
+            get
+            {
+                return _ZipPath;
+            }
+            set
+            {
+                OnZipPathChanging(value);
+                ReportPropertyChanging("ZipPath");
+                _ZipPath = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ZipPath");
+                OnZipPathChanged();
+            }
+        }
+        private global::System.String _ZipPath;
+        partial void OnZipPathChanging(global::System.String value);
+        partial void OnZipPathChanged();
 
         #endregion
 
@@ -1109,6 +1121,78 @@ namespace Common
         private global::System.String _Lastname;
         partial void OnLastnameChanging(global::System.String value);
         partial void OnLastnameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Salt
+        {
+            get
+            {
+                return _Salt;
+            }
+            set
+            {
+                OnSaltChanging(value);
+                ReportPropertyChanging("Salt");
+                _Salt = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Salt");
+                OnSaltChanged();
+            }
+        }
+        private global::System.String _Salt;
+        partial void OnSaltChanging(global::System.String value);
+        partial void OnSaltChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PrivateKey
+        {
+            get
+            {
+                return _PrivateKey;
+            }
+            set
+            {
+                OnPrivateKeyChanging(value);
+                ReportPropertyChanging("PrivateKey");
+                _PrivateKey = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PrivateKey");
+                OnPrivateKeyChanged();
+            }
+        }
+        private global::System.String _PrivateKey;
+        partial void OnPrivateKeyChanging(global::System.String value);
+        partial void OnPrivateKeyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PublicKey
+        {
+            get
+            {
+                return _PublicKey;
+            }
+            set
+            {
+                OnPublicKeyChanging(value);
+                ReportPropertyChanging("PublicKey");
+                _PublicKey = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PublicKey");
+                OnPublicKeyChanged();
+            }
+        }
+        private global::System.String _PublicKey;
+        partial void OnPublicKeyChanging(global::System.String value);
+        partial void OnPublicKeyChanged();
 
         #endregion
 

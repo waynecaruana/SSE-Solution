@@ -56,6 +56,38 @@ namespace DataAccess
             return entities.Users.SingleOrDefault(x => x.Email == email);
         }
 
+        /// <summary>
+        /// this allow us to get a role by id
+        /// </summary>
+        /// <param name="id">id of a role PK</param>
+        /// <returns>a single role entity</returns>
+        public Role GetRoleByID(int id)
+        {
+            try
+            {
+                if (id != -1)
+                {
+                    return entities.Roles.SingleOrDefault(r => r.RoleID == id);
+                }
+                else throw new ArgumentException();
+            }
+            catch
+            {
+                throw new ArgumentException();
+            }
+
+
+        }
+
+        /// <summary>
+        /// This gives you a list of all users
+        /// </summary>
+        /// <returns>a list of all users in the database</returns>
+        public IEnumerable<User> GetUsers()
+        {
+            return entities.Users;
+        }
+
        
     }
 }
