@@ -57,23 +57,6 @@
         <ScalarProperty Name="ID" ColumnName="MenuID" />
       </EndProperty>
     </AssociationSetMapping>
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="SecureShoppingCartDBModel.Product">
-        <MappingFragment StoreEntitySet="Products">
-          <ScalarProperty Name="ZipPath" ColumnName="ZipPath" />
-          <ScalarProperty Name="GenreID" ColumnName="GenreID" />
-          <ScalarProperty Name="SellerEmail" ColumnName="SellerEmail" />
-          <ScalarProperty Name="DateListed" ColumnName="DateListed" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="SoldQty" ColumnName="SoldQty" />
-          <ScalarProperty Name="Stock" ColumnName="Stock" />
-          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ShoppingCarts">
       <EntityTypeMapping TypeName="SecureShoppingCartDBModel.ShoppingCart">
         <MappingFragment StoreEntitySet="ShoppingCart">
@@ -100,6 +83,26 @@
           <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="SecureShoppingCartDBModel.Product">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="Signiture" ColumnName="Signiture" />
+          <ScalarProperty Name="IV" ColumnName="IV" />
+          <ScalarProperty Name="Key" ColumnName="Key" />
+          <ScalarProperty Name="ZipPath" ColumnName="ZipPath" />
+          <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+          <ScalarProperty Name="SellerEmail" ColumnName="SellerEmail" />
+          <ScalarProperty Name="DateListed" ColumnName="DateListed" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="SoldQty" ColumnName="SoldQty" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

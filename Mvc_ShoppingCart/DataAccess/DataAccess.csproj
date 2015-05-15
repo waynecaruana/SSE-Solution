@@ -112,6 +112,7 @@
     <Compile Include="ConnectionClass.cs" />
     <Compile Include="EncryptionClass.cs" />
     <Compile Include="GenreRepository.cs" />
+    <Compile Include="HybridEncryptionClass.cs" />
     <Compile Include="MenuRepository.cs" />
     <Compile Include="ProductRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,6 +5,9 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.IO;
+using Common;
+
+
 
 namespace DataAccess
 {
@@ -57,6 +60,9 @@ namespace DataAccess
             myEncStream.Write(buffer, 0, buffer.Length);
             myEncStream.FlushFinalBlock();
             //streamwriter--writes in cyrptostream--then cypto writes in memory
+
+
+            
             return Convert.ToBase64String(msOut.ToArray());   // <<<<<<<<<<<<<<<<<<<<< enc data to string
         }
 
@@ -117,6 +123,8 @@ namespace DataAccess
             fsOut.Close();
 
         }
+
+        
 
         public static void DecryptSymmetricFile(string filename, string password, string salt)
         {
@@ -186,7 +194,7 @@ namespace DataAccess
             StreamReader sr = new StreamReader(fsPublicKey);
             myAlg.FromXmlString(sr.ReadToEnd());
 
-            byte[] cipher = myAlg.Encrypt(Encoding.UTF8.GetBytes(input), true);
+            byte[] cipher = myAlg.Encrypt(Encoding.UTF8.GetBytes(input),true);
             return Convert.ToBase64String(cipher);
 
         }

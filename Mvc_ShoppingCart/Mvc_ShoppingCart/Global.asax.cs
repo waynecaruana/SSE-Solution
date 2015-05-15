@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Common;
+using BusinessLogic;
+using System.Security.Principal;
 
 
 
@@ -31,6 +34,24 @@ namespace Mvc_ShoppingCart
             );
 
         }
+
+        //protected void Application_AuthenticateRequest(object sender, EventArgs args)
+        //{
+        //    if (Context.User.Identity.Name != "")
+        //    {
+        //        IEnumerable<Role> roles = new RoleBL().GetUserRoles(Context.User.Identity.Name);
+
+
+        //        string[] permissionArray = new string[roles.Count()];
+        //        for (int i = 0; i < roles.Count(); i++)
+        //        {
+        //            permissionArray[i] = roles.ElementAt(i).Name;
+        //        }
+
+        //        GenericPrincipal gp = new GenericPrincipal(Context.User.Identity, permissionArray);
+        //        Context.User = gp;
+        //    }
+        //}
 
         protected void Application_Start()
         {

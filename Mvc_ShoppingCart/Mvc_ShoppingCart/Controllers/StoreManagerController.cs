@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using BusinessLogic;
 using Common;
 using DataAccess;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
 
 
 namespace Mvc_ShoppingCart.Controllers
@@ -75,7 +78,42 @@ namespace Mvc_ShoppingCart.Controllers
             {
                 if (hexString.Replace("-", " ").StartsWith("52 61 72 21 1A 07 00") || hexString.Replace("-", " ").StartsWith("50 4B 03 04"))
                 {
-                    zip.SaveAs(Server.MapPath("~/Content/productZip/" + prog.ToString()));
+                  
+
+                   
+
+                   User u = new UserBL().GetUserByEmail(User.Identity.Name);
+                   string pathIn = Server.MapPath("~/Content/productZip/" + prog.ToString());
+
+                  
+
+                   zip.SaveAs(Server.MapPath("~/Content/productZip/" + prog.ToString()));
+
+                   string pathOut = Server.MapPath("~/Content/productZip/" + prog.ToString().Replace(".","Enc."));
+
+                   HybridEncryptionClass he = new HybridEncryptionClass();
+                   he.Encryption(pathIn, pathOut, u.Password);
+
+                   string signigure = HybridEncryptionClass.SignFile(pathIn, u.PrivateKey);
+                   
+
+                   System.IO.File.Delete(pathIn);
+                   string StringKey = he.AsymmetricEncryption(u.PublicKey, he.key);
+                   string StringIV = he.AsymmetricEncryption(u.PublicKey, he.IV);
+
+                  
+
+                    try
+                    {
+                        new ProductBL().AddProduct(model.Name, model.Description, "/Content/productImages/" + image.ToString(), "/Content/productZip/" + prog.Replace(".", "Enc.").ToString(), Convert.ToInt32(model.Stock), Convert.ToDecimal(model.Price), User.Identity.Name, model.GenreID.ToString(),StringKey,StringIV, signigure);
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception e)
+                    {
+                        string ex = e.Message;
+                        return View();
+                    }
+
                 }
                 else
                 {
@@ -90,23 +128,15 @@ namespace Mvc_ShoppingCart.Controllers
                 return View(model);
             }
 
-            User u = new UserBL().GetUserByEmail(User.Identity.Name);//get user for salt and pass
-            //Symmetric Encryption
-            EncryptionClass.SymmetricEncryptFile(Server.MapPath("~/Content/productZip/" + prog.ToString()), u.Password,u.Salt);
-            //System.IO.File.Delete(Server.MapPath("~/Content/productZip/" + prog.ToString()));
-            //EncryptionClass.DecryptSymmetricFile(Server.MapPath("~/Content/productZip/" + prog.Replace(".","Enc.").ToString()), u.Password, u.Salt);
+           
+
+            
+            
+
+      
 
 
-            try
-            {
-                new ProductBL().AddProduct(model.Name, model.Description, "/Content/productImages/" + image.ToString(), "/Content/productZip/" + prog.Replace(".","Enc.").ToString(), Convert.ToInt32(model.Stock), Convert.ToDecimal(model.Price), User.Identity.Name, model.GenreID.ToString());
-                return RedirectToAction("Index");
-            }
-            catch(Exception e)
-            {
-                string ex = e.Message;
-                return View();
-            }
+          
         
         }
         

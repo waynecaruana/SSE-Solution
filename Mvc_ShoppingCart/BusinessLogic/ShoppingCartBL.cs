@@ -59,5 +59,51 @@ namespace BusinessLogic
         {
             return new ShoppingCartRepository().GetItemBoughtByEmail(email);
         }
+
+
+        /// <summary>
+        /// a method to add order
+        /// </summary>
+        /// <param name="orderId">order id</param>
+        /// <param name="username">username</param>
+        /// <param name="totalPrice">total price</param>
+        public int AddOrder(string email, decimal totalPrice)
+        {
+
+            Order o = new Order();
+            o.Email = email;
+            o.TotalPrice = totalPrice;
+            o.Date = DateTime.Now.Date;
+
+            new ShoppingCartRepository().AddOrder(o);
+
+            return o.ID;
+        }
+
+        public void AddOrderDetails(int productId, decimal productPrice, int orderId)
+        {
+            OrderDetail od = new OrderDetail();
+            od.ProductID = productId;
+            od.Price = productPrice;
+            od.Qty = 1;
+            od.OrderID = orderId;
+
+
+            new ShoppingCartRepository().AddOrderDetails(od);
+        }
+
+        public IQueryable<Order> GetOrdersByUsername(string username)
+        {
+            return new ShoppingCartRepository().GetOrdersByUsername(username);
+        }
+
+        public IQueryable<OrderDetail> GetOrderDetailsByOrderId(int id)
+        {
+            return new ShoppingCartRepository().GetOrderDetailsByOrderId(id);
+        }
+
+
+       
+
     }
 }

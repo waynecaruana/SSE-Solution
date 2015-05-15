@@ -111,6 +111,9 @@
     <Property Name="SellerEmail" Type="varchar" MaxLength="50" />
     <Property Name="GenreID" Type="int" />
     <Property Name="ZipPath" Type="varchar" MaxLength="300" />
+    <Property Name="Key" Type="varchar(max)" />
+    <Property Name="IV" Type="varchar(max)" />
+    <Property Name="Signiture" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Roles">
     <Key>

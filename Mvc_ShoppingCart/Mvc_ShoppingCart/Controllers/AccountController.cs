@@ -56,7 +56,6 @@ namespace Mvc_ShoppingCart.Controllers
                 response_type = "code",
                 scope = "email"
             });
-
             return Redirect(loginUrl.AbsoluteUri);
         }
 
@@ -90,6 +89,7 @@ namespace Mvc_ShoppingCart.Controllers
             try
             {
                 new UserBL().Register(email, me.id, firstname, lastname);//register a new user
+              
             }
             catch(Exception e)
             {

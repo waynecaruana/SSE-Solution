@@ -58,6 +58,9 @@ namespace DataAccess
         }
 
 
+
+
+
         public IEnumerable<ShoppingCart> GetShoppingCartItemsByUsername(string username)
         {
 
@@ -83,6 +86,50 @@ namespace DataAccess
             }
 
             return orderDetails;
+        }
+
+        /// <summary>
+        /// a method to add orders
+        /// </summary>
+        /// <param name="o">an instance of type orders</param>
+        public void AddOrder(Order o)
+        {
+            entities.Orders.AddObject(o);//to add a new product
+            entities.SaveChanges();//to save and confirm modifications
+        }
+
+        /// <summary>
+        /// a method to add order details
+        /// </summary>
+        /// <param name="od">an instance of type order details</param>
+        public void AddOrderDetails(OrderDetail od)
+        {
+            entities.OrderDetails.AddObject(od);//to add a new product
+            entities.SaveChanges();//to save and confirm modifications
+        }
+
+
+        public IQueryable<Order> GetOrdersByUsername(string username)
+        {
+            var list =
+              (
+                  from sc in entities.Orders
+                  where sc.Email == username
+                  select sc
+              );
+
+            return list.Distinct().AsQueryable();
+
+           
+        }
+
+        public IQueryable<OrderDetail> GetOrderDetailsByOrderId(int id)
+        {
+
+
+            return entities.OrderDetails.Where(p => p.OrderID == id);
+
+
         }
     }
 }

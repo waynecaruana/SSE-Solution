@@ -5,6 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using Common;
 using BusinessLogic;
+using System.IO;
+using System.Security.Cryptography;
+using DataAccess;
+using System.Text;
 
 namespace Mvc_ShoppingCart.Controllers
 {
@@ -25,8 +29,10 @@ namespace Mvc_ShoppingCart.Controllers
         /// <returns>view</returns>
         /// 
         [Authorize]
-        public ActionResult AddToShoppingCart(int Quantity = 0)
+        public ActionResult AddToShoppingCart(int Quantity = 1)
         {
+
+
             ShoppingCart sc = new ShoppingCart();
             if (string.IsNullOrEmpty("Quantity"))
             {
@@ -38,77 +44,42 @@ namespace Mvc_ShoppingCart.Controllers
             }
             else
             {
-                sc.Email = Session["Username"].ToString();
+                List<Order> list = new ShoppingCartBL().GetOrdersByUsername(User.Identity.Name).ToList();
+                List<OrderDetail> odList = new List<OrderDetail>();
+
+                foreach (Order o in list)
+                {
+                    odList.AddRange(new ShoppingCartBL().GetOrderDetailsByOrderId(o.ID));
+                }
+
+                //if(shopp)
+                sc.Email = User.Identity.Name;
                 sc.Qty = Quantity;
                 sc.ProductID = Convert.ToInt32(Session["ProductID"]);
+
+                foreach (OrderDetail od in odList)
+                {
+                    if (od.ProductID == sc.ProductID)
+                    {
+                        ViewBag.Msg = "Product Is already Bought";
+                        return View();
+                    }
+                }
 
                 new ShoppingCartBL().AddProductToCart(sc);
             }
 
 
-            return RedirectToAction("Index", "Product");
+            return RedirectToAction("Index", "Store");
 
         }
 
-        //public ActionResult Checkout(string Token)
-        //{
-        //        User u = new UserBL().GetUserByEmail(User.Identity.Name);
-            
+        public ActionResult Checkout()
+        {
 
-        //        string orderID = Guid.NewGuid().ToString();//create a bew guid for orderID
-        //        IEnumerable<ShoppingCart> productsList = new ShoppingCartBL().GetShoppingCartItemsByUsername(User.Identity.Name);
-        //        decimal granTotal = 0;//store the total price
+            return RedirectToAction("createpayment", "paypal", new { description = "new item", price = 99 });
 
-        //        foreach (ShoppingCart sc in productsList)
-        //        {
-        //            Product p = new ProductBL().GetProductsByID(sc.ProductID);
-        //            granTotal += Convert.ToDecimal(p.Price);
-        //        }
-
-        //        foreach (ShoppingCart sc in productsList)
-        //        {
-
-        //            int productId = Convert.ToInt32(sc.ProductID);
-        //            int newStock;
-        //            Product p = new ProductBL().GetProductsByID(productId);
-
-        //            if (new WCFOrderService.WCF_OrdersClient().GetOrderByID(orderID) == null)
-        //            {
-        //                //add order
-        //                Order o = new Order();
-        //                o.ID = orderID;
-        //                o.Username = Session["Username"].ToString();
-        //                o.Date = DateTime.Now.Date;
-        //                o.TotalPrice = granTotal;
-        //                new WCFOrderService.WCF_OrdersClient().AddOrder(o);
-        //            }
-
-        //            newStock = Convert.ToInt32(p.Stock) - sc.Qty;
-
-        //            //update product
-        //            p.Stock = newStock;
-        //            new WCFProductService.WCF_ProductsClient().Update(p);
-
-        //            //clear shopping cart allocated to that user
-        //            new WCFCartService.WCF_CartClient().Delete(Session["Username"].ToString(), p.ID);
-
-        //            //add order details
-        //            OrderDetail od = new OrderDetail();
-        //            od.ProductID = p.ID;
-        //            od.Price = p.Price;
-        //            od.Qty = sc.Qty;
-        //            od.WarrantyExpiryDate = DateTime.Now.AddYears(2);
-        //            od.OrderID = orderID;
-        //            new WCFOrderService.WCF_OrdersClient().AddOrderDetails(od);//add order detail
-                
-        //    }
-
-         
-
-
-        //    return RedirectToAction("Index", "Product");
-
-        //}
+        }
 
         //
         // GET: /Cart/Details/5
@@ -176,6 +147,40 @@ namespace Mvc_ShoppingCart.Controllers
         public ActionResult Delete(string Username, int ProductID)
         {
             new ShoppingCartBL().Delete(Username, ProductID);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DownloadFile(string Username, int ProductID)
+        {
+            Product p = new ProductBL().GetProductsByID(ProductID);
+            User u = new UserBL().GetUserByEmail(p.SellerEmail);
+            string pathIn = Server.MapPath(p.ZipPath.ToString());
+            string pathOut = Server.MapPath(p.ZipPath.Replace("Enc.","."));
+            HybridEncryptionClass he = new HybridEncryptionClass();
+            byte[] Key = he.AsymmetricDecryption(u.PrivateKey, p.Key);
+            byte[] IV = he.AsymmetricDecryption(u.PrivateKey, p.IV);
+
+            MemoryStream ms = he.Decryption(pathIn, pathOut, Key, IV, ProductID);
+            System.IO.File.Delete(pathOut);
+            try
+            {
+                string filename = pathOut.Substring(pathOut.LastIndexOf("\\")).Remove(0,1);
+                byte[] bytesInStream = ms.ToArray();
+                Response.Clear();
+                Response.ContentType = "application/force-download";
+                Response.AddHeader("content-disposition", "attachment;    filename="+filename+"");
+                Response.BinaryWrite(bytesInStream);
+                Response.End();
+            }
+            catch (Exception e)
+            {
+               
+            }
+
+            
+            
+           
+
             return RedirectToAction("Index");
         }
 

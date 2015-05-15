@@ -104,6 +104,7 @@ namespace Mvc_ShoppingCart.Controllers
             }
         }
 
+        [CustomAuthorize(Roles="Admin")]
         public ActionResult AllocateRoles()
         {
             RoleModel roleModel = new RoleModel();

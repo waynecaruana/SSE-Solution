@@ -59,3 +59,9 @@ C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\Mono.M
 C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\obj\Debug\Mvc_ShoppingCart.csproj.App.config
 C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\Facebook.dll
 C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\Facebook.xml
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\EntityFramework.SqlServer.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\System.Data.SQLite.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\System.Data.SQLite.EF6.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\System.Data.SQLite.Linq.dll
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\EntityFramework.SqlServer.xml
+C:\Users\Wayne\Desktop\SSE-Solution\Mvc_ShoppingCart\Mvc_ShoppingCart\bin\System.Data.SQLite.xml

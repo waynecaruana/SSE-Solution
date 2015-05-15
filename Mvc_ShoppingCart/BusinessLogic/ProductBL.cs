@@ -48,7 +48,7 @@ namespace BusinessLogic
         /// <param name="image">product image</param>
         /// <param name="stock">product quantity in stock</param>
         /// <param name="price">product price</param>
-        public void AddProduct(string name, string desc, string image, string zip,int stock, decimal price, string email, string genre)
+        public void AddProduct(string name, string desc, string image, string zip,int stock, decimal price, string email, string genre, string key, string iv, string signiture)
         {
 
 
@@ -64,6 +64,9 @@ namespace BusinessLogic
             p.DateListed = DateTime.Now.Date;
             p.SellerEmail = u.Email;
             p.GenreID = Convert.ToInt32(genre);
+            p.Key = key;
+            p.IV = iv;
+            p.Signiture = signiture;
 
             new ProductRepository().AddProduct(p);
 

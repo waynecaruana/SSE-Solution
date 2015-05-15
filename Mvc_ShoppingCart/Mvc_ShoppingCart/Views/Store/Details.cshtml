@@ -39,11 +39,11 @@
                 @using (Html.BeginForm("AddToShoppingCart", "Cart", FormMethod.Get))
                 {
                     
-                    @Html.Label("Qty: ")
-                    @Html.TextBox("Quantity")
+                    //@Html.Label("Qty: ")
+                    //@Html.TextBox("Quantity")
                     Session["ProductID"] = @Html.DisplayFor(model => p.ID).ToString();
                     <input id="btnAdd" type="submit" value="Add to Cart" />
-                    @ViewBag.Msg
+                    //@ViewBag.Msg
                 }
 
                 

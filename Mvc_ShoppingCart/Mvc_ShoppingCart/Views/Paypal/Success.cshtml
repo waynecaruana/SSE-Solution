@@ -1,0 +1,33 @@
+﻿@model Mvc_ShoppingCart.Models.PayPalViewData
+
+@{
+    ViewBag.Title = "Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Success</h2>
+
+<p>
+    Congratulations on your purchase! Your money is now my money. 
+<p/>
+
+@{
+    List<Common.ShoppingCart> productsList = new BusinessLogic.ShoppingCartBL().GetShoppingCartItemsByUsername(Context.User.Identity.Name).ToList();//get a list of products in user shopping cart
+    
+    decimal total = 0;//total including vat
+
+    foreach (Common.ShoppingCart x in productsList)
+    {
+        Common.Product p = new BusinessLogic.ProductBL().GetProductsByID(x.ProductID);
+        total += Convert.ToDecimal(p.Price);
+
+        int orderID = new BusinessLogic.ShoppingCartBL().AddOrder(Context.User.Identity.Name,total);
+
+        new BusinessLogic.ShoppingCartBL().Delete(Context.User.Identity.Name, p.ID); ;
+
+
+        new BusinessLogic.ShoppingCartBL().AddOrderDetails(p.ID,Convert.ToDecimal(p.Price),orderID);//add order detail
+    }   
+}
+
+<p><a href="@Url.Action("Index", "Store")" ><span>Visit Store</span></a></p>

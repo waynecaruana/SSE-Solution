@@ -11,14 +11,15 @@ type="text/javascript"></script>
 <body>
     <div id="header">
         <h1>
-            ASP.NET MVC MUSIC STORE</h1>
+            Secure Shopping Cart Application</h1>
         <ul id="navlist">
 
-            <li class="first"> @Html.ActionLink("Home", "Index", "Home")</li>
+          
             <li class="first"> @Html.ActionLink("Store", "Index", "Store")</li>
-            <li class="first"> @Html.ActionLink("Manage Products", "Index", "StoreManager")</li>
-            <li class="first"> @Html.ActionLink("Role Allocation", "AllocateRoles", "Admin")</li>
-            <li class="first"> @Html.ActionLink("Cart", "Index", "Cart")</li>
+
+            
+
+            
 
         
 
@@ -31,16 +32,21 @@ type="text/javascript"></script>
                 foreach (Common.Role r in userRoles)
                 {
                    
-                    userMenu = new BusinessLogic.MenuBL().GetMenus(r.RoleID).ToList();
+                    userMenu.AddRange(new BusinessLogic.MenuBL().GetMenus(r.RoleID).ToList());
                     ViewBag.Menus = userMenu;
                 }
                 
                 foreach (Common.Menu m in userMenu.Distinct())
                 {
-                    //<li class="first"> @Html.ActionLink(m.MenuName, m.IndexName, m.FolderName)</li>
+                    <li class="first"> @Html.ActionLink(m.MenuName, m.IndexName, m.FolderName)</li>
                 }
             }
             
+            
+            @if (User.Identity.Name != "")
+            {
+                <li class="first"> @Html.ActionLink("Cart", "Index", "Cart")</li>
+            }
             
 
 

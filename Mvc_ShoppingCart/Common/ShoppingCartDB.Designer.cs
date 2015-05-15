@@ -21,12 +21,12 @@ using System.Xml.Serialization;
 
 [assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "UserRoles", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Role), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.User))]
 [assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "MenuRoles", "Menu", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Menu), "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Role))]
-[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_Products_Genres", "Genre", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.Genre), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
-[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_Products_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.User), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
-[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_ShoppingCart_Products", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.Product), "ShoppingCart", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.ShoppingCart), true)]
 [assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_ShoppingCart_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.User), "ShoppingCart", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.ShoppingCart), true)]
 [assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_OrderDetails_Orders", "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.Order), "OrderDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.OrderDetail), true)]
 [assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_Orders_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.User), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Order), true)]
+[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_Products_Genres", "Genre", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.Genre), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
+[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_Products_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.User), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
+[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_ShoppingCart_Products", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.Product), "ShoppingCart", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.ShoppingCart), true)]
 
 #endregion
 
@@ -145,22 +145,6 @@ namespace Common
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Product> Products
-        {
-            get
-            {
-                if ((_Products == null))
-                {
-                    _Products = base.CreateObjectSet<Product>("Products");
-                }
-                return _Products;
-            }
-        }
-        private ObjectSet<Product> _Products;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<ShoppingCart> ShoppingCarts
         {
             get
@@ -205,6 +189,22 @@ namespace Common
             }
         }
         private ObjectSet<Order> _Orders;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Product> Products
+        {
+            get
+            {
+                if ((_Products == null))
+                {
+                    _Products = base.CreateObjectSet<Product>("Products");
+                }
+                return _Products;
+            }
+        }
+        private ObjectSet<Product> _Products;
 
         #endregion
 
@@ -243,14 +243,6 @@ namespace Common
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Products EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToProducts(Product product)
-        {
-            base.AddObject("Products", product);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the ShoppingCarts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToShoppingCarts(ShoppingCart shoppingCart)
@@ -272,6 +264,14 @@ namespace Common
         public void AddToOrders(Order order)
         {
             base.AddObject("Orders", order);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Products EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToProducts(Product product)
+        {
+            base.AddObject("Products", product);
         }
 
         #endregion
@@ -1247,6 +1247,78 @@ namespace Common
         private global::System.String _ZipPath;
         partial void OnZipPathChanging(global::System.String value);
         partial void OnZipPathChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Key
+        {
+            get
+            {
+                return _Key;
+            }
+            set
+            {
+                OnKeyChanging(value);
+                ReportPropertyChanging("Key");
+                _Key = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Key");
+                OnKeyChanged();
+            }
+        }
+        private global::System.String _Key;
+        partial void OnKeyChanging(global::System.String value);
+        partial void OnKeyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String IV
+        {
+            get
+            {
+                return _IV;
+            }
+            set
+            {
+                OnIVChanging(value);
+                ReportPropertyChanging("IV");
+                _IV = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("IV");
+                OnIVChanged();
+            }
+        }
+        private global::System.String _IV;
+        partial void OnIVChanging(global::System.String value);
+        partial void OnIVChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Signiture
+        {
+            get
+            {
+                return _Signiture;
+            }
+            set
+            {
+                OnSignitureChanging(value);
+                ReportPropertyChanging("Signiture");
+                _Signiture = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Signiture");
+                OnSignitureChanged();
+            }
+        }
+        private global::System.String _Signiture;
+        partial void OnSignitureChanging(global::System.String value);
+        partial void OnSignitureChanged();
 
         #endregion
 
@@ -1600,44 +1672,6 @@ namespace Common
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_ShoppingCart_Products", "Product")]
-        public Product Product
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("SecureShoppingCartDBModel.FK_ShoppingCart_Products", "Product").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("SecureShoppingCartDBModel.FK_ShoppingCart_Products", "Product").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Product> ProductReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("SecureShoppingCartDBModel.FK_ShoppingCart_Products", "Product");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Product>("SecureShoppingCartDBModel.FK_ShoppingCart_Products", "Product", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_ShoppingCart_Users", "User")]
         public User User
         {
@@ -1666,6 +1700,44 @@ namespace Common
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("SecureShoppingCartDBModel.FK_ShoppingCart_Users", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_ShoppingCart_Products", "Product")]
+        public Product Product
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("SecureShoppingCartDBModel.FK_ShoppingCart_Products", "Product").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("SecureShoppingCartDBModel.FK_ShoppingCart_Products", "Product").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Product> ProductReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("SecureShoppingCartDBModel.FK_ShoppingCart_Products", "Product");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Product>("SecureShoppingCartDBModel.FK_ShoppingCart_Products", "Product", value);
                 }
             }
         }
@@ -1903,28 +1975,6 @@ namespace Common
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_Products_Users", "Product")]
-        public EntityCollection<Product> Products
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Product>("SecureShoppingCartDBModel.FK_Products_Users", "Product");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Product>("SecureShoppingCartDBModel.FK_Products_Users", "Product", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_ShoppingCart_Users", "ShoppingCart")]
         public EntityCollection<ShoppingCart> ShoppingCarts
         {
@@ -1959,6 +2009,28 @@ namespace Common
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Order>("SecureShoppingCartDBModel.FK_Orders_Users", "Order", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_Products_Users", "Product")]
+        public EntityCollection<Product> Products
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Product>("SecureShoppingCartDBModel.FK_Products_Users", "Product");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Product>("SecureShoppingCartDBModel.FK_Products_Users", "Product", value);
                 }
             }
         }

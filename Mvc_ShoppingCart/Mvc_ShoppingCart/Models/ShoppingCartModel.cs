@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Common;
 using BusinessLogic;
+using System.Data.Entity;
 
 namespace Mvc_ShoppingCart.Models
 {

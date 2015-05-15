@@ -185,9 +185,9 @@
         
                 <td>
                     @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */}) 
-                    @Html.ActionLink("Download", "Delete", new { Username = item.Email, ProductID = item.ProductID })|*@
-                    Download
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */}) *@
+                    @Html.ActionLink("Download", "DownloadFile", new { Username = User.Identity.Name, ProductID = item.ProductID })
+                    
                 </td>
             </tr>
     
