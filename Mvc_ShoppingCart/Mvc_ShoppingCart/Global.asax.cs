@@ -7,6 +7,8 @@ using System.Web.Routing;
 using Common;
 using BusinessLogic;
 using System.Security.Principal;
+using Mvc_ShoppingCart.Controllers;
+using System.Web.Http;
 
 
 
@@ -26,6 +28,12 @@ namespace Mvc_ShoppingCart
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapHttpRoute(
+                  name: "DefaultApi",
+                  routeTemplate: "api/{controller}/{id}",
+                  defaults: new { id = RouteParameter.Optional }
+              );
 
             routes.MapRoute(
                 "Default", // Route name
@@ -59,6 +67,37 @@ namespace Mvc_ShoppingCart
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+        }
+
+
+        protected void Application_Error()
+        {
+            var exception = Server.GetLastError();
+            var httpException = exception as HttpException;
+            Response.Clear();
+            Server.ClearError();
+            var routeData = new RouteData();
+            routeData.Values["controller"] = "Errors";
+            routeData.Values["action"] = "General";
+            routeData.Values["exception"] = exception;
+            Response.StatusCode = 500;
+            if (httpException != null)
+            {
+                Response.StatusCode = httpException.GetHttpCode();
+                switch (Response.StatusCode)
+                {
+                    case 403:
+                        routeData.Values["action"] = "Http403";
+                        break;
+                    case 404:
+                        routeData.Values["action"] = "Http404";
+                        break;
+                }
+            }
+
+            IController errorsController = new ErrorController();
+            var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
+            errorsController.Execute(rc);
         }
     }
 }

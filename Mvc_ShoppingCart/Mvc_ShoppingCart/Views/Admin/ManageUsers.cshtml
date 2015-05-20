@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "ManageUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="../../Scripts/jquery-1.5.1.js" type="text/javascript"></script>
+<script type = "text/javascript">
+
+
+    function GetAllEmployees() {
+        jQuery.support.cors = true;
+        $.ajax({
+            url: 'http://localhost:52387/api/WebAPI',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                WriteResponse(data);
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+
+
+    function WriteResponse(employees) {
+        var strResult = "<table><th>Email</th><th>Name</th><th>Department</th>";
+        $.each(employees, function (index, employee) {
+            strResult += "<tr><td>" + employee.Email + "</td><td> " + employee.Name + "</td><td>" + employee.Surname + "</td></tr>";
+        });
+        strResult += "</table>";
+        $("#divResult").html(strResult);
+    }
+
+    
+
+    </script>
+
+<h2>Manage Users</h2>
+
+
+
+ 
+        <div id="divResult"></div>
+
+ 
+
+
+
+<button onclick="GetAllEmployees();return false;">Get All Employees</button>

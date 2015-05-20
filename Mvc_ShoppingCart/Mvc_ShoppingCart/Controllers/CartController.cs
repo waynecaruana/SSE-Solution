@@ -177,10 +177,6 @@ namespace Mvc_ShoppingCart.Controllers
                
             }
 
-            
-            
-           
-
             return RedirectToAction("Index");
         }
 

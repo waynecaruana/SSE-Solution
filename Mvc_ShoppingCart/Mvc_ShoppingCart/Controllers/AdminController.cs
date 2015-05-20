@@ -127,5 +127,13 @@ namespace Mvc_ShoppingCart.Controllers
             return View(roleModel);
         }
 
+        [CustomAuthorize(Roles = "Admin")]
+        public ActionResult ManageUsers()
+        {
+            return View();
+        }
+
+
+
     }
 }
