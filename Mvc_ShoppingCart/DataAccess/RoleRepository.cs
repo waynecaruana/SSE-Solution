@@ -59,9 +59,35 @@ namespace DataAccess
 
         public IEnumerable<Role> GetUserRoles(string email)
         {
+            try
+            {
+                User u = new UserRepository().GetUserByEmail(email);//get user
+                return u.Roles.ToList();//get the list of users
+            }
+            catch
+            {
+                List<Role> r = new List<Role>();
+                Role unknown = new Role();
+                unknown.Name = "Unknown";
+                r.Add(unknown);
+                return r;
+            }
+        }
 
-            User u = new UserRepository().GetUserByEmail(email);//get user
-            return u.Roles.ToList();//get the list of users
+        public IEnumerable<Role> GetPageRoles(string uri)
+        {
+            List<PageRole> pr = entities.PageRoles.Where(x => x.PageUri == uri).ToList();
+            List<Role> r = new List<Role>();
+
+            foreach (var item in pr)
+            {
+                r.Add(item.Role);
+                
+            }
+
+            return r;
+
+           
         }
 
         /// <summary>

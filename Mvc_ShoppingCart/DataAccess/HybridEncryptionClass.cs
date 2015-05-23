@@ -41,34 +41,41 @@ namespace DataAccess
 
         public MemoryStream Decryption(string fileName, string outputPath, byte[] Key, byte[] IV, int productid)
         {
-            FileStream fsIn = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-            RijndaelManaged algo = new RijndaelManaged() { KeySize = 128, BlockSize = 128 };
-            algo.Key = Key;
-            algo.IV = IV;
-            MemoryStream msOut = new MemoryStream();
-            CryptoStream decrStream = new CryptoStream(fsIn, algo.CreateDecryptor(), CryptoStreamMode.Read);
-            decrStream.CopyTo(msOut);
-
-           
-            FileStream fsOut = new FileStream(outputPath, FileMode.OpenOrCreate);
-            //get product signiture
-            Product p = new ProductRepository().GetProductsByID(productid);
-            User u = new UserRepository().GetUserByEmail(p.SellerEmail);
-            MemoryStream temp = msOut;
-            msOut.Position = 0;
-            msOut.CopyTo(fsOut);
-            msOut.Flush();
-            msOut.Close();
-            fsOut.Flush();
-            fsOut.Close();
-            fsIn.Flush();
-            fsIn.Close();
-            bool ver = VerifyFile(outputPath, u.PublicKey, p.Signiture);
-            if (ver)
+            try
             {
-                return temp;
+                FileStream fsIn = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                RijndaelManaged algo = new RijndaelManaged() { KeySize = 128, BlockSize = 128 };
+                algo.Key = Key;
+                algo.IV = IV;
+                MemoryStream msOut = new MemoryStream();
+                CryptoStream decrStream = new CryptoStream(fsIn, algo.CreateDecryptor(), CryptoStreamMode.Read);
+                decrStream.CopyTo(msOut);
+
+
+                FileStream fsOut = new FileStream(outputPath, FileMode.OpenOrCreate);
+                //get product signiture
+                Product p = new ProductRepository().GetProductsByID(productid);
+                User u = new UserRepository().GetUserByEmail(p.SellerEmail);
+                MemoryStream temp = msOut;
+                msOut.Position = 0;
+                msOut.CopyTo(fsOut);
+                msOut.Flush();
+                msOut.Close();
+                fsOut.Flush();
+                fsOut.Close();
+                fsIn.Flush();
+                fsIn.Close();
+                bool ver = VerifyFile(outputPath, u.PublicKey, p.Signiture);
+                if (ver)
+                {
+                    return temp;
+                }
+                else return null;
             }
-             else return null;
+            catch
+            {
+                return null;
+            }
         }
 
         public string AsymmetricEncryption(string PublicKey, byte[] keys)

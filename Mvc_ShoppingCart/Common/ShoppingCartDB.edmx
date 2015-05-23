@@ -11,6 +11,7 @@
           <EntitySet Name="Menus" EntityType="SecureShoppingCartDBModel.Store.Menus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OrderDetails" EntityType="SecureShoppingCartDBModel.Store.OrderDetails" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Orders" EntityType="SecureShoppingCartDBModel.Store.Orders" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PageRole" EntityType="SecureShoppingCartDBModel.Store.PageRole" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Products" EntityType="SecureShoppingCartDBModel.Store.Products" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Roles" EntityType="SecureShoppingCartDBModel.Store.Roles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ShoppingCart" EntityType="SecureShoppingCartDBModel.Store.ShoppingCart" store:Type="Tables" Schema="dbo" />
@@ -31,6 +32,10 @@
           <AssociationSet Name="FK_Orders_Users" Association="SecureShoppingCartDBModel.Store.FK_Orders_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageRole_Roles" Association="SecureShoppingCartDBModel.Store.FK_PageRole_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="PageRole" EntitySet="PageRole" />
           </AssociationSet>
           <AssociationSet Name="FK_Products_Genres" Association="SecureShoppingCartDBModel.Store.FK_Products_Genres">
             <End Role="Genres" EntitySet="Genres" />
@@ -100,6 +105,14 @@
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="Date" Type="date" />
           <Property Name="TotalPrice" Type="decimal" Scale="2" />
+        </EntityType>
+        <EntityType Name="PageRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PageUri" Type="varchar" MaxLength="100" />
+          <Property Name="RoleID" Type="int" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -201,6 +214,18 @@
             </Principal>
             <Dependent Role="Orders">
               <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageRole_Roles">
+          <End Role="Roles" Type="SecureShoppingCartDBModel.Store.Roles" Multiplicity="0..1" />
+          <End Role="PageRole" Type="SecureShoppingCartDBModel.Store.PageRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="PageRole">
+              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -321,6 +346,11 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
           </AssociationSet>
+          <EntitySet Name="PageRoles" EntityType="SecureShoppingCartDBModel.PageRole" />
+          <AssociationSet Name="FK_PageRole_Roles" Association="SecureShoppingCartDBModel.FK_PageRole_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="PageRole" EntitySet="PageRoles" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Genre">
           <Key>
@@ -339,6 +369,7 @@
           <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Users" Relationship="SecureShoppingCartDBModel.UserRoles" FromRole="Role" ToRole="User" />
           <NavigationProperty Name="Menus" Relationship="SecureShoppingCartDBModel.MenuRoles" FromRole="Role" ToRole="Menu" />
+          <NavigationProperty Name="PageRoles" Relationship="SecureShoppingCartDBModel.FK_PageRole_Roles" FromRole="Role" ToRole="PageRole" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -501,6 +532,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PageRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="PageUri" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="RoleID" />
+          <NavigationProperty Name="Role" Relationship="SecureShoppingCartDBModel.FK_PageRole_Roles" FromRole="PageRole" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_PageRole_Roles">
+          <End Type="SecureShoppingCartDBModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="SecureShoppingCartDBModel.PageRole" Role="PageRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="PageRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -613,6 +665,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PageRoles">
+            <EntityTypeMapping TypeName="SecureShoppingCartDBModel.PageRole">
+              <MappingFragment StoreEntitySet="PageRole">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="PageUri" ColumnName="PageUri" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -638,16 +699,14 @@
         <EntityTypeShape EntityType="SecureShoppingCartDBModel.Role" Width="1.5" PointX="3.375" PointY="1.125" Height="1.5956835937499996" />
         <EntityTypeShape EntityType="SecureShoppingCartDBModel.User" Width="1.5" PointX="5.625" PointY="0.875" Height="1.9802864583333335" />
         <AssociationConnector Association="SecureShoppingCartDBModel.UserRoles" >
-          <ConnectorPoint PointX="4.875" PointY="2.0189925130208328" />
-          <ConnectorPoint PointX="5.625" PointY="2.0189925130208328" />
+          <ConnectorPoint PointX="4.875" PointY="2.1151432291666667" />
+          <ConnectorPoint PointX="5.625" PointY="2.1151432291666667" />
         </AssociationConnector>
         <EntityTypeShape EntityType="SecureShoppingCartDBModel.Menu" Width="1.5" PointX="1.375" PointY="2.875" Height="1.9802864583333335" />
         <AssociationConnector Association="SecureShoppingCartDBModel.MenuRoles" >
-          <ConnectorPoint PointX="2.125" PointY="2.875" />
-          <ConnectorPoint PointX="2.125" PointY="2.575" />
-          <ConnectorPoint PointX="3.075" PointY="2.575" />
-          <ConnectorPoint PointX="3.075" PointY="2.0189925130208328" />
-          <ConnectorPoint PointX="3.375" PointY="2.0189925130208328" />
+          <ConnectorPoint PointX="2.875" PointY="3.9802869583333336" />
+          <ConnectorPoint PointX="4.125" PointY="3.9802869583333336" />
+          <ConnectorPoint PointX="4.125" PointY="3.1052864583333331" />
         </AssociationConnector>
         <EntityTypeShape EntityType="SecureShoppingCartDBModel.ShoppingCart" Width="1.5" PointX="5.25" PointY="4.625" Height="1.9802864583333326" />
         <AssociationConnector Association="SecureShoppingCartDBModel.FK_ShoppingCart_Users" >
@@ -682,6 +741,12 @@
           <ConnectorPoint PointX="6.104166666666667" PointY="4.3170450260416651" />
           <ConnectorPoint PointX="5.40625" PointY="4.3170450260416651" />
           <ConnectorPoint PointX="5.40625" PointY="4.625" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="SecureShoppingCartDBModel.PageRole" Width="1.5" PointX="5.625" PointY="8.25" Height="1.7879850260416674" />
+        <AssociationConnector Association="SecureShoppingCartDBModel.FK_PageRole_Roles" >
+          <ConnectorPoint PointX="4.5312525" PointY="3.1052864583333331" />
+          <ConnectorPoint PointX="4.5312525" PointY="9.1439925130208337" />
+          <ConnectorPoint PointX="5.625" PointY="9.1439925130208337" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

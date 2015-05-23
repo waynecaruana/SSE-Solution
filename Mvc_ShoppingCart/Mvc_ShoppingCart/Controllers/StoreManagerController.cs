@@ -47,6 +47,12 @@ namespace Mvc_ShoppingCart.Controllers
         [HttpPost]
         public ActionResult Create(Product model)
         {
+            if(model.Name == null || model.Description ==null || model.GenreID == null || model.Price == null || model.Stock == null)
+            {
+
+                ModelState.AddModelError("", "Make sure that all fields are filled Correctly");
+                return View(model);
+            }
             //for image
             HttpPostedFileBase file = Request.Files[0];
             byte[] imageSize = new byte[file.ContentLength];

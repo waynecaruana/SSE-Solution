@@ -20,7 +20,7 @@ namespace Mvc_ShoppingCart.Controllers
     {
         //
         // GET: /WebAPI/
-         [CustomAuthorize(Roles = "Admin")]
+        //[CustomAuthorize(Roles = "Admin")]
         public IEnumerable<MyUsers> GetUsers()
         {
             List<MyUsers> users =  new List<MyUsers>();

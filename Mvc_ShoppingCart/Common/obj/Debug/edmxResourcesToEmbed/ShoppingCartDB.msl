@@ -107,5 +107,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PageRoles">
+      <EntityTypeMapping TypeName="SecureShoppingCartDBModel.PageRole">
+        <MappingFragment StoreEntitySet="PageRole">
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="PageUri" ColumnName="PageUri" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

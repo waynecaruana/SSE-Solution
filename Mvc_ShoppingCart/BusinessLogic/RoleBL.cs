@@ -9,7 +9,10 @@ namespace BusinessLogic
 {
     public class RoleBL
     {
-
+        public IEnumerable<Role> GetPageRoles(string uri)
+        {
+            return new RoleRepository().GetPageRoles(uri);
+        }
 
         public IEnumerable<Role> GetUserRoles(string email)
         {

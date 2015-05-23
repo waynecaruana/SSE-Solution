@@ -17,10 +17,10 @@ type="text/javascript"></script>
           
             <li class="first"> @Html.ActionLink("Store", "Index", "Store")</li>
 
-             <li class="first"> @Html.ActionLink("Manage Users", "ManageUsers", "Admin")</li>
+            @* <li class="first"> @Html.ActionLink("Manage Users", "ManageUsers", "Admin")</li>*@
 
             
-
+             <li class="first"> @Html.ActionLink("Manage Users", "CallWebApi", "Admin")</li>
         
 
             @if (User.Identity.Name != "")

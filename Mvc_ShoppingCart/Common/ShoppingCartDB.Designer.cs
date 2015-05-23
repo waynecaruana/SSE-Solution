@@ -27,6 +27,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_Products_Genres", "Genre", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.Genre), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
 [assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_Products_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.User), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
 [assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_ShoppingCart_Products", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.Product), "ShoppingCart", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.ShoppingCart), true)]
+[assembly: EdmRelationshipAttribute("SecureShoppingCartDBModel", "FK_PageRole_Roles", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Common.Role), "PageRole", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.PageRole), true)]
 
 #endregion
 
@@ -205,6 +206,22 @@ namespace Common
             }
         }
         private ObjectSet<Product> _Products;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<PageRole> PageRoles
+        {
+            get
+            {
+                if ((_PageRoles == null))
+                {
+                    _PageRoles = base.CreateObjectSet<PageRole>("PageRoles");
+                }
+                return _PageRoles;
+            }
+        }
+        private ObjectSet<PageRole> _PageRoles;
 
         #endregion
 
@@ -272,6 +289,14 @@ namespace Common
         public void AddToProducts(Product product)
         {
             base.AddObject("Products", product);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the PageRoles EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToPageRoles(PageRole pageRole)
+        {
+            base.AddObject("PageRoles", pageRole);
         }
 
         #endregion
@@ -959,6 +984,153 @@ namespace Common
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="SecureShoppingCartDBModel", Name="PageRole")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class PageRole : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new PageRole object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        public static PageRole CreatePageRole(global::System.Int32 id)
+        {
+            PageRole pageRole = new PageRole();
+            pageRole.ID = id;
+            return pageRole;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PageUri
+        {
+            get
+            {
+                return _PageUri;
+            }
+            set
+            {
+                OnPageUriChanging(value);
+                ReportPropertyChanging("PageUri");
+                _PageUri = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PageUri");
+                OnPageUriChanged();
+            }
+        }
+        private global::System.String _PageUri;
+        partial void OnPageUriChanging(global::System.String value);
+        partial void OnPageUriChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> RoleID
+        {
+            get
+            {
+                return _RoleID;
+            }
+            set
+            {
+                OnRoleIDChanging(value);
+                ReportPropertyChanging("RoleID");
+                _RoleID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("RoleID");
+                OnRoleIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _RoleID;
+        partial void OnRoleIDChanging(Nullable<global::System.Int32> value);
+        partial void OnRoleIDChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_PageRole_Roles", "Role")]
+        public Role Role
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("SecureShoppingCartDBModel.FK_PageRole_Roles", "Role").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("SecureShoppingCartDBModel.FK_PageRole_Roles", "Role").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Role> RoleReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("SecureShoppingCartDBModel.FK_PageRole_Roles", "Role");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Role>("SecureShoppingCartDBModel.FK_PageRole_Roles", "Role", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="SecureShoppingCartDBModel", Name="Product")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -1548,6 +1720,28 @@ namespace Common
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Menu>("SecureShoppingCartDBModel.MenuRoles", "Menu", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SecureShoppingCartDBModel", "FK_PageRole_Roles", "PageRole")]
+        public EntityCollection<PageRole> PageRoles
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PageRole>("SecureShoppingCartDBModel.FK_PageRole_Roles", "PageRole");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PageRole>("SecureShoppingCartDBModel.FK_PageRole_Roles", "PageRole", value);
                 }
             }
         }

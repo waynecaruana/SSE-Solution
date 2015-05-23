@@ -41,6 +41,11 @@
       <End Role="Product" EntitySet="Products" />
       <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
     </AssociationSet>
+    <EntitySet Name="PageRoles" EntityType="SecureShoppingCartDBModel.PageRole" />
+    <AssociationSet Name="FK_PageRole_Roles" Association="SecureShoppingCartDBModel.FK_PageRole_Roles">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="PageRole" EntitySet="PageRoles" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Genre">
     <Key>
@@ -59,6 +64,7 @@
     <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Users" Relationship="SecureShoppingCartDBModel.UserRoles" FromRole="Role" ToRole="User" />
     <NavigationProperty Name="Menus" Relationship="SecureShoppingCartDBModel.MenuRoles" FromRole="Role" ToRole="Menu" />
+    <NavigationProperty Name="PageRoles" Relationship="SecureShoppingCartDBModel.FK_PageRole_Roles" FromRole="Role" ToRole="PageRole" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -218,6 +224,27 @@
       </Principal>
       <Dependent Role="ShoppingCart">
         <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="PageRole">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="PageUri" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="RoleID" />
+    <NavigationProperty Name="Role" Relationship="SecureShoppingCartDBModel.FK_PageRole_Roles" FromRole="PageRole" ToRole="Role" />
+  </EntityType>
+  <Association Name="FK_PageRole_Roles">
+    <End Type="SecureShoppingCartDBModel.Role" Role="Role" Multiplicity="0..1" />
+    <End Type="SecureShoppingCartDBModel.PageRole" Role="PageRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="PageRole">
+        <PropertyRef Name="RoleID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

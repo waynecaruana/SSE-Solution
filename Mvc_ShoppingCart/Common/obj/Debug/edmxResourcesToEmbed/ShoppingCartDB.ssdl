@@ -6,6 +6,7 @@
     <EntitySet Name="Menus" EntityType="SecureShoppingCartDBModel.Store.Menus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OrderDetails" EntityType="SecureShoppingCartDBModel.Store.OrderDetails" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Orders" EntityType="SecureShoppingCartDBModel.Store.Orders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PageRole" EntityType="SecureShoppingCartDBModel.Store.PageRole" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Products" EntityType="SecureShoppingCartDBModel.Store.Products" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Roles" EntityType="SecureShoppingCartDBModel.Store.Roles" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ShoppingCart" EntityType="SecureShoppingCartDBModel.Store.ShoppingCart" store:Type="Tables" Schema="dbo" />
@@ -26,6 +27,10 @@
     <AssociationSet Name="FK_Orders_Users" Association="SecureShoppingCartDBModel.Store.FK_Orders_Users">
       <End Role="Users" EntitySet="Users" />
       <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PageRole_Roles" Association="SecureShoppingCartDBModel.Store.FK_PageRole_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="PageRole" EntitySet="PageRole" />
     </AssociationSet>
     <AssociationSet Name="FK_Products_Genres" Association="SecureShoppingCartDBModel.Store.FK_Products_Genres">
       <End Role="Genres" EntitySet="Genres" />
@@ -95,6 +100,14 @@
     <Property Name="Email" Type="varchar" MaxLength="50" />
     <Property Name="Date" Type="date" />
     <Property Name="TotalPrice" Type="decimal" Scale="2" />
+  </EntityType>
+  <EntityType Name="PageRole">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PageUri" Type="varchar" MaxLength="100" />
+    <Property Name="RoleID" Type="int" />
   </EntityType>
   <EntityType Name="Products">
     <Key>
@@ -196,6 +209,18 @@
       </Principal>
       <Dependent Role="Orders">
         <PropertyRef Name="Email" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PageRole_Roles">
+    <End Role="Roles" Type="SecureShoppingCartDBModel.Store.Roles" Multiplicity="0..1" />
+    <End Role="PageRole" Type="SecureShoppingCartDBModel.Store.PageRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="PageRole">
+        <PropertyRef Name="RoleID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

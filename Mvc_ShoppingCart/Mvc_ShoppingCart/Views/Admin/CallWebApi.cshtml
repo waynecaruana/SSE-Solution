@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "CallWebApi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CallWebApi</h2>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Email
+        </th>
+       
+        
+    </tr>
+
+@foreach (var item in Model)
+{
+
+    
+        <tr>
+        <td>
+        
+            @item.Name
+   
+        </td>
+        <td>
+            @item.Surname
+        </td>
+         <td>
+            @item.Email
+        </td>
+       
+        
+       
+        </tr>
+    
+
+}
+
+</table>
